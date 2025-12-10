@@ -1,12 +1,17 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React from 'react';
+import Navigation from '@/components/Navigation';
+import Header from '@/components/Header';
+import Gallery from '@/components/Gallery';
 
-const Index = () => {
+const Index: React.FC = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="bg-secondary min-h-screen">
+      <Navigation activeProject="Dublin" />
+      
+      <main className="ml-[285px] max-md:ml-0">
+        <Header />
+        <Gallery />
+      </main>
     </div>
   );
 };
