@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid3X3, Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Rss, Square, ChevronLeft, ChevronRight } from 'lucide-react';
 import Testimonial from './Testimonial';
 
 const Gallery: React.FC = () => {
@@ -65,14 +65,14 @@ const Gallery: React.FC = () => {
           className={`p-2 rounded transition-opacity ${viewMode === 'masonry' ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}
           aria-label="Masonry view"
         >
-          <Grid3X3 size={18} strokeWidth={1.5} />
+          <Rss size={18} strokeWidth={1.5} />
         </button>
         <button
           onClick={() => setViewMode('slideshow')}
           className={`p-2 rounded transition-opacity ${viewMode === 'slideshow' ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}
           aria-label="Slideshow view"
         >
-          <Play size={18} strokeWidth={1.5} />
+          <Square size={18} strokeWidth={1.5} />
         </button>
       </div>
 
