@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { LayoutGrid, Square, ChevronLeft, ChevronRight } from 'lucide-react';
 import Testimonial from './Testimonial';
 
@@ -53,8 +53,8 @@ const Gallery: React.FC = () => {
     { src: "https://api.builder.io/api/v1/image/assets/dfa0ab7a55a34550a4a3de1deb33b8e5/f0ac80ec322365fc9cfb103f4f39744a97269069", aspect: "aspect-[0.67]" }
   ];
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % allImages.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length);
+  const nextSlide = useCallback(() => setCurrentSlide((prev) => (prev + 1) % allImages.length), [allImages.length]);
+  const prevSlide = useCallback(() => setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length), [allImages.length]);
 
   const openSlideshow = (imageSrc: string) => {
     const index = allImages.findIndex(img => img.src === imageSrc);
@@ -63,6 +63,19 @@ const Gallery: React.FC = () => {
       setViewMode('slideshow');
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (viewMode !== 'slideshow') return;
+      
+      if (e.key === 'ArrowRight') nextSlide();
+      else if (e.key === 'ArrowLeft') prevSlide();
+      else if (e.key === 'Escape') setViewMode('masonry');
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [viewMode, nextSlide, prevSlide]);
 
   return (
     <section className="w-full overflow-hidden">
