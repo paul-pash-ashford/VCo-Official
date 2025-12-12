@@ -19,7 +19,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin' }) => 
 
   return (
     <nav className="bg-white min-w-60 min-h-screen text-foreground font-medium w-[285px] pt-16 px-16 max-md:px-5 fixed left-0 top-0 h-full">
-      <header className="text-4xl leading-none tracking-[-1.07px] border border-foreground inline-block px-1 font-bold">
+      <header className="text-4xl leading-none tracking-[-1.07px] font-bold">
         V&Co
       </header>
       
