@@ -10,11 +10,11 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin' }) => 
   const projects = [
     'ABOUT',
     'ARMAGH', 
-    'Bangor',
+    'BANGOR',
     'DONEGAL',
-    'Dublin',
-    'Ward Ave',
-    'Zen'
+    'DUBLIN',
+    'WARD AVE',
+    'ZEN'
   ];
 
   return (
