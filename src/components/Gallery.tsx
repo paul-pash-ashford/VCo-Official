@@ -76,86 +76,93 @@ const Gallery: React.FC = () => {
         </button>
       </div>
 
-      {viewMode === 'slideshow' ? (
-        <div className="relative h-[calc(100vh-120px)] flex items-center justify-center bg-secondary">
-          <img
-            src={allImages[currentSlide].src}
-            alt={allImages[currentSlide].alt}
-            className="max-h-full max-w-full object-contain"
+      {viewMode === 'slideshow' && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Overlay */}
+          <div 
+            className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+            onClick={() => setViewMode('masonry')}
           />
           
-          {/* Navigation Buttons */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 opacity-40 hover:opacity-100 transition-opacity"
-            aria-label="Previous image"
-          >
-            <ChevronLeft size={32} strokeWidth={1} />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 opacity-40 hover:opacity-100 transition-opacity"
-            aria-label="Next image"
-          >
-            <ChevronRight size={32} strokeWidth={1} />
-          </button>
-          
-          {/* Slide Counter */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm opacity-60">
-            {currentSlide + 1} / {allImages.length}
+          {/* Slideshow Container */}
+          <div className="relative z-10 w-[90vw] max-w-5xl h-[80vh] bg-background rounded-lg shadow-2xl flex items-center justify-center animate-scale-in">
+            <img
+              src={allImages[currentSlide].src}
+              alt={allImages[currentSlide].alt}
+              className="max-h-full max-w-full object-contain p-4"
+            />
+            
+            {/* Navigation Buttons */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 opacity-40 hover:opacity-100 transition-opacity"
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={32} strokeWidth={1} />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 opacity-40 hover:opacity-100 transition-opacity"
+              aria-label="Next image"
+            >
+              <ChevronRight size={32} strokeWidth={1} />
+            </button>
+            
+            {/* Slide Counter */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm opacity-60">
+              {currentSlide + 1} / {allImages.length}
+            </div>
           </div>
         </div>
-      ) : (
-        <>
-          <img
-            src="https://api.builder.io/api/v1/image/assets/dfa0ab7a55a34550a4a3de1deb33b8e5/a9494d6641553156331c08aad95d4fd01834e7b4"
-            alt="Main hero image of the Dublin residential home project"
-            className="aspect-[1.78] object-cover w-full rounded-sm"
+      )}
+
+      <img
+        src="https://api.builder.io/api/v1/image/assets/dfa0ab7a55a34550a4a3de1deb33b8e5/a9494d6641553156331c08aad95d4fd01834e7b4"
+        alt="Main hero image of the Dublin residential home project"
+        className="aspect-[1.78] object-cover w-full rounded-sm"
+      />
+      
+      <div className="flex w-full flex-wrap">
+        <div className="min-w-60 flex-1 shrink basis-0">
+          {column1Images.map((image, index) => (
+            <img
+              key={`col1-${index}`}
+              src={image.src}
+              alt={`Interior view ${index + 1}`}
+              className={`${image.aspect} object-cover w-full rounded-sm`}
+              loading="lazy"
+            />
+          ))}
+        </div>
+        
+        <div className="min-w-60 flex-1 shrink basis-0">
+          {column2Images.map((image, index) => (
+            <img
+              key={`col2-${index}`}
+              src={image.src}
+              alt={`Interior view ${index + 1}`}
+              className={`${image.aspect} object-cover w-full rounded-sm`}
+              loading="lazy"
+            />
+          ))}
+          
+          <Testimonial
+            quote="It was a pleasure to help refurbish this original 19th-century mews-type building with a contemporary extension bringing this home into a new era, blending restored heritage elements with clean modern lines, refined finishes, and a calm, contemporary palette."
+            author="Veronica Clarke"
+            title="Designer"
           />
           
-          <div className="flex w-full flex-wrap">
-            <div className="min-w-60 flex-1 shrink basis-0">
-              {column1Images.map((image, index) => (
-                <img
-                  key={`col1-${index}`}
-                  src={image.src}
-                  alt={`Interior view ${index + 1}`}
-                  className={`${image.aspect} object-cover w-full rounded-sm`}
-                  loading="lazy"
-                />
-              ))}
-            </div>
-            
-            <div className="min-w-60 flex-1 shrink basis-0">
-              {column2Images.map((image, index) => (
-                <img
-                  key={`col2-${index}`}
-                  src={image.src}
-                  alt={`Interior view ${index + 1}`}
-                  className={`${image.aspect} object-cover w-full rounded-sm`}
-                  loading="lazy"
-                />
-              ))}
-              
-              <Testimonial
-                quote="It was a pleasure to help refurbish this original 19th-century mews-type building with a contemporary extension bringing this home into a new era, blending restored heritage elements with clean modern lines, refined finishes, and a calm, contemporary palette."
-                author="Veronica Clarke"
-                title="Designer"
-              />
-              
-              {column2ImagesAfterTestimonial.map((image, index) => (
-                <img
-                  key={`col2-after-${index}`}
-                  src={image.src}
-                  alt={`Interior view ${index + 1}`}
-                  className={`${image.aspect} object-cover w-full rounded-sm`}
-                  loading="lazy"
-                />
-              ))}
-            </div>
-          </div>
-        </>
-      )}
+          {column2ImagesAfterTestimonial.map((image, index) => (
+            <img
+              key={`col2-after-${index}`}
+              src={image.src}
+              alt={`Interior view ${index + 1}`}
+              className={`${image.aspect} object-cover w-full rounded-sm`}
+              loading="lazy"
+            />
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
