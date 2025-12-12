@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Rss, Square, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LayoutGrid, Square, ChevronLeft, ChevronRight } from 'lucide-react';
 import Testimonial from './Testimonial';
 
 const Gallery: React.FC = () => {
@@ -57,15 +57,15 @@ const Gallery: React.FC = () => {
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length);
 
   return (
-    <section className="w-full overflow-hidden relative">
+    <section className="w-full overflow-hidden">
       {/* View Toggle Buttons */}
-      <div className="absolute top-4 right-4 z-10 flex gap-2">
+      <div className="flex gap-2 mb-4">
         <button
           onClick={() => setViewMode('masonry')}
           className={`p-2 rounded transition-opacity ${viewMode === 'masonry' ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}
           aria-label="Masonry view"
         >
-          <Rss size={18} strokeWidth={1.5} />
+          <LayoutGrid size={18} strokeWidth={1.5} />
         </button>
         <button
           onClick={() => setViewMode('slideshow')}
