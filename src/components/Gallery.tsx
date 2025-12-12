@@ -56,6 +56,14 @@ const Gallery: React.FC = () => {
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % allImages.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length);
 
+  const openSlideshow = (imageSrc: string) => {
+    const index = allImages.findIndex(img => img.src === imageSrc);
+    if (index !== -1) {
+      setCurrentSlide(index);
+      setViewMode('slideshow');
+    }
+  };
+
   return (
     <section className="w-full overflow-hidden">
       {/* View Toggle Buttons */}
@@ -93,7 +101,7 @@ const Gallery: React.FC = () => {
             />
             
             {/* Bottom Navigation */}
-            <div className="absolute bottom-4 flex items-center gap-6">
+            <div className="absolute bottom-0 left-0 right-0 py-6 flex items-center justify-center gap-6">
               <button
                 onClick={prevSlide}
                 className="p-2 opacity-40 hover:opacity-100 transition-opacity"
@@ -121,7 +129,8 @@ const Gallery: React.FC = () => {
       <img
         src="https://api.builder.io/api/v1/image/assets/dfa0ab7a55a34550a4a3de1deb33b8e5/a9494d6641553156331c08aad95d4fd01834e7b4"
         alt="Main hero image of the Dublin residential home project"
-        className="aspect-[1.78] object-cover w-full rounded-sm"
+        className="aspect-[1.78] object-cover w-full rounded-sm cursor-pointer hover:opacity-90 transition-opacity"
+        onClick={() => openSlideshow("https://api.builder.io/api/v1/image/assets/dfa0ab7a55a34550a4a3de1deb33b8e5/a9494d6641553156331c08aad95d4fd01834e7b4")}
       />
       
       <div className="flex w-full flex-wrap">
@@ -131,8 +140,9 @@ const Gallery: React.FC = () => {
               key={`col1-${index}`}
               src={image.src}
               alt={`Interior view ${index + 1}`}
-              className={`${image.aspect} object-cover w-full rounded-sm`}
+              className={`${image.aspect} object-cover w-full rounded-sm cursor-pointer hover:opacity-90 transition-opacity`}
               loading="lazy"
+              onClick={() => openSlideshow(image.src)}
             />
           ))}
         </div>
@@ -143,8 +153,9 @@ const Gallery: React.FC = () => {
               key={`col2-${index}`}
               src={image.src}
               alt={`Interior view ${index + 1}`}
-              className={`${image.aspect} object-cover w-full rounded-sm`}
+              className={`${image.aspect} object-cover w-full rounded-sm cursor-pointer hover:opacity-90 transition-opacity`}
               loading="lazy"
+              onClick={() => openSlideshow(image.src)}
             />
           ))}
           
@@ -159,8 +170,9 @@ const Gallery: React.FC = () => {
               key={`col2-after-${index}`}
               src={image.src}
               alt={`Interior view ${index + 1}`}
-              className={`${image.aspect} object-cover w-full rounded-sm`}
+              className={`${image.aspect} object-cover w-full rounded-sm cursor-pointer hover:opacity-90 transition-opacity`}
               loading="lazy"
+              onClick={() => openSlideshow(image.src)}
             />
           ))}
         </div>
