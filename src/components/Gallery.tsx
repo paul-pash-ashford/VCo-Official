@@ -106,7 +106,7 @@ const Gallery: React.FC = () => {
           />
           
           {/* Slideshow Container */}
-          <div className="relative z-10 w-[90vw] max-w-5xl h-[80vh] bg-background rounded-lg shadow-2xl flex flex-col items-center justify-center animate-scale-in">
+          <div className="relative z-10 w-[90vw] max-w-5xl h-[80vh] bg-[#E7F0F5] rounded-lg shadow-2xl flex flex-col items-center justify-center animate-scale-in">
             <img
               src={allImages[currentSlide].src}
               alt={allImages[currentSlide].alt}
