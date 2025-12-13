@@ -101,7 +101,7 @@ const Gallery: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in">
           {/* Overlay */}
           <div 
-            className="absolute inset-0 bg-background/80 backdrop-blur-sm transition-opacity duration-300"
+            className="absolute inset-0 bg-background/60 backdrop-blur-2xl backdrop-saturate-150 transition-opacity duration-300"
             onClick={() => setViewMode('masonry')}
           />
           
