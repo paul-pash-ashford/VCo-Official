@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 interface NavigationProps {
   activeProject?: string;
-  variant?: 'dark' | 'light';
+  variant?: 'dark' | 'light' | 'zen';
 }
 
 const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', variant = 'dark' }) => {
@@ -19,12 +19,30 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
     'ZEN'
   ];
 
-  const isLight = variant === 'light';
-  const textColor = isLight ? 'text-white' : 'text-foreground';
-  const activeStyles = isLight 
-    ? 'bg-white text-[#8B9B7A]' 
-    : 'bg-foreground text-white';
-  const hoverStyles = isLight ? 'bg-white/20' : 'bg-muted';
+  const getStyles = () => {
+    switch (variant) {
+      case 'light':
+        return {
+          textColor: 'text-white',
+          activeStyles: 'bg-white text-[#8B9B7A]',
+          hoverStyles: 'bg-white/20'
+        };
+      case 'zen':
+        return {
+          textColor: 'text-[#E8A5A5]',
+          activeStyles: 'bg-[#E8A5A5] text-[#7A2B32]',
+          hoverStyles: 'bg-[#E8A5A5]/20'
+        };
+      default:
+        return {
+          textColor: 'text-foreground',
+          activeStyles: 'bg-foreground text-white',
+          hoverStyles: 'bg-muted'
+        };
+    }
+  };
+
+  const { textColor, activeStyles, hoverStyles } = getStyles();
 
   return (
     <nav className={`min-w-60 min-h-screen ${textColor} font-medium w-[285px] pt-16 px-16 max-md:px-5 fixed left-0 top-0 h-full`}>
@@ -40,6 +58,9 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
                 case 'ARMAGH': return '/armagh';
                 case 'DUBLIN': return '/';
                 case 'WARD AVE': return '/ward-ave';
+                case 'DONEGAL': return '/donegal';
+                case 'BANGOR': return '/bangor';
+                case 'ZEN': return '/zen';
                 default: return null;
               }
             };
