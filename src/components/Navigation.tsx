@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface NavigationProps {
   activeProject?: string;
@@ -25,22 +26,56 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin' }) => 
       
       <div className="flex flex-col items-start text-[13px] uppercase mt-20 max-md:mt-10">
         <section className="w-full">
-          {projects.map((project) => (
-            <button
-              key={project}
-              onMouseEnter={() => setHoveredItem(project)}
-              onMouseLeave={() => setHoveredItem(null)}
-              className={`w-auto text-left transition-colors duration-200 ${
-                activeProject === project
-                  ? 'bg-foreground text-white'
-                  : hoveredItem === project
-                  ? 'bg-muted'
-                  : 'bg-transparent'
-              } block mt-2 px-1 py-0.5 first:mt-0`}
-            >
-              {project}
-            </button>
-          ))}
+          {projects.map((project) => 
+            project === 'ARMAGH' ? (
+              <Link
+                key={project}
+                to="/armagh"
+                onMouseEnter={() => setHoveredItem(project)}
+                onMouseLeave={() => setHoveredItem(null)}
+                className={`w-auto text-left transition-colors duration-200 ${
+                  activeProject === project
+                    ? 'bg-foreground text-white'
+                    : hoveredItem === project
+                    ? 'bg-muted'
+                    : 'bg-transparent'
+                } block mt-2 px-1 py-0.5 first:mt-0`}
+              >
+                {project}
+              </Link>
+            ) : project === 'DUBLIN' ? (
+              <Link
+                key={project}
+                to="/"
+                onMouseEnter={() => setHoveredItem(project)}
+                onMouseLeave={() => setHoveredItem(null)}
+                className={`w-auto text-left transition-colors duration-200 ${
+                  activeProject === project
+                    ? 'bg-foreground text-white'
+                    : hoveredItem === project
+                    ? 'bg-muted'
+                    : 'bg-transparent'
+                } block mt-2 px-1 py-0.5 first:mt-0`}
+              >
+                {project}
+              </Link>
+            ) : (
+              <button
+                key={project}
+                onMouseEnter={() => setHoveredItem(project)}
+                onMouseLeave={() => setHoveredItem(null)}
+                className={`w-auto text-left transition-colors duration-200 ${
+                  activeProject === project
+                    ? 'bg-foreground text-white'
+                    : hoveredItem === project
+                    ? 'bg-muted'
+                    : 'bg-transparent'
+                } block mt-2 px-1 py-0.5 first:mt-0`}
+              >
+                {project}
+              </button>
+            )
+          )}
         </section>
         
         <button
