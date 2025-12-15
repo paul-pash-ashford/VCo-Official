@@ -34,40 +34,39 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
       
       <div className="flex flex-col items-start text-[13px] uppercase mt-20 max-md:mt-10">
         <section className="w-full">
-          {projects.map((project) => 
-            project === 'ARMAGH' ? (
-              <Link
-                key={project}
-                to="/armagh"
-                onMouseEnter={() => setHoveredItem(project)}
-                onMouseLeave={() => setHoveredItem(null)}
-                className={`w-auto text-left transition-colors duration-200 ${
-                  activeProject === project
-                    ? activeStyles
-                    : hoveredItem === project
-                    ? hoverStyles
-                    : 'bg-transparent'
-                } block mt-2 px-1 py-0.5 first:mt-0`}
-              >
-                {project}
-              </Link>
-            ) : project === 'DUBLIN' ? (
-              <Link
-                key={project}
-                to="/"
-                onMouseEnter={() => setHoveredItem(project)}
-                onMouseLeave={() => setHoveredItem(null)}
-                className={`w-auto text-left transition-colors duration-200 ${
-                  activeProject === project
-                    ? activeStyles
-                    : hoveredItem === project
-                    ? hoverStyles
-                    : 'bg-transparent'
-                } block mt-2 px-1 py-0.5 first:mt-0`}
-              >
-                {project}
-              </Link>
-            ) : (
+          {projects.map((project) => {
+            const getRoute = (proj: string) => {
+              switch (proj) {
+                case 'ARMAGH': return '/armagh';
+                case 'DUBLIN': return '/';
+                case 'WARD AVE': return '/ward-ave';
+                default: return null;
+              }
+            };
+            
+            const route = getRoute(project);
+            
+            if (route) {
+              return (
+                <Link
+                  key={project}
+                  to={route}
+                  onMouseEnter={() => setHoveredItem(project)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  className={`w-auto text-left transition-colors duration-200 ${
+                    activeProject === project
+                      ? activeStyles
+                      : hoveredItem === project
+                      ? hoverStyles
+                      : 'bg-transparent'
+                  } block mt-2 px-1 py-0.5 first:mt-0`}
+                >
+                  {project}
+                </Link>
+              );
+            }
+            
+            return (
               <button
                 key={project}
                 onMouseEnter={() => setHoveredItem(project)}
@@ -82,8 +81,8 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
               >
                 {project}
               </button>
-            )
-          )}
+            );
+          })}
         </section>
         
         <button
