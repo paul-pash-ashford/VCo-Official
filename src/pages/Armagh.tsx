@@ -4,7 +4,7 @@ import Navigation from '@/components/Navigation';
 const Armagh: React.FC = () => {
   return (
     <div className="bg-[#8B9B7A] min-h-screen">
-      <Navigation activeProject="ARMAGH" />
+      <Navigation activeProject="ARMAGH" variant="light" />
       
       <main className="ml-[285px] max-md:ml-0">
         <header className="flex w-full flex-col overflow-hidden items-stretch text-white font-medium justify-center py-32 px-24 max-md:px-5 max-md:py-20">
