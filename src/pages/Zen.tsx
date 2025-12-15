@@ -1,9 +1,7 @@
 import React from 'react';
 import Navigation from '../components/Navigation';
-
 const Zen: React.FC = () => {
-  return (
-    <div className="bg-[#7A2B32] min-h-screen">
+  return <div className="bg-[#7A2B32] min-h-screen">
       <Navigation activeProject="ZEN" variant="zen" />
       
       <main className="ml-[285px] max-md:ml-0">
@@ -17,13 +15,9 @@ const Zen: React.FC = () => {
           <p className="text-base leading-relaxed mt-16 max-w-3xl max-md:mt-10">
             House of Zen situated in St. Anne's Square, Belfast.
           </p>
-          <p className="text-base leading-relaxed mt-6 max-w-3xl">
-            In traditional Chinese fashion the colour red symbolises fortune, luck, happiness and energy. Natural cork with reflective metallic details create interesting depths and textures throughout and adding a touch of drama with the red Mise En Scene silk range, designed to complement and enhance of the dark interior design of the restaurant.
-          </p>
+          <p className="text-base leading-relaxed mt-6 max-w-3xl">In traditional Chinese fashion the colour red symbolises fortune, luck, happiness and energy. Natural cork with reflective metallic details create interesting depths and textures throughout, adding a touch of drama alongside the red Mise En Scene silk range, chosen to complement and enhance of the dark interior design of the restaurant.</p>
         </header>
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Zen;
