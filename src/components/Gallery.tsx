@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { LayoutGrid, Square, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LayoutGrid, Square, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import Testimonial from './Testimonial';
 
 const Gallery: React.FC = () => {
@@ -105,12 +105,21 @@ const Gallery: React.FC = () => {
             onClick={() => setViewMode('masonry')}
           />
           
+          {/* Close Button */}
+          <button
+            onClick={() => setViewMode('masonry')}
+            className="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 opacity-60 hover:opacity-100 transition-opacity"
+            aria-label="Close slideshow"
+          >
+            <X size={28} strokeWidth={1.5} />
+          </button>
+          
           {/* Slideshow Container */}
-          <div className="relative z-10 w-[90vw] max-w-5xl h-[80vh] bg-[#E7F0F5] rounded-lg shadow-2xl flex flex-col items-center justify-center animate-scale-in">
+          <div className="relative z-10 w-full h-full md:w-[90vw] md:max-w-5xl md:h-[80vh] bg-[#E7F0F5] md:rounded-lg md:shadow-2xl flex flex-col items-center justify-center animate-scale-in">
             <img
               src={allImages[currentSlide].src}
               alt={allImages[currentSlide].alt}
-              className="max-h-[calc(100%-60px)] max-w-full object-contain p-4 transition-opacity duration-200"
+              className="max-h-[calc(100%-80px)] max-w-full object-contain p-4 transition-opacity duration-200"
             />
             
             {/* Bottom Navigation */}
@@ -146,8 +155,8 @@ const Gallery: React.FC = () => {
         onClick={() => openSlideshow("https://api.builder.io/api/v1/image/assets/dfa0ab7a55a34550a4a3de1deb33b8e5/a9494d6641553156331c08aad95d4fd01834e7b4")}
       />
       
-      <div className="flex w-full flex-wrap">
-        <div className="min-w-60 flex-1 shrink basis-0">
+      <div className="flex flex-col md:flex-row w-full">
+        <div className="w-full md:min-w-60 md:flex-1 md:shrink md:basis-0">
           {column1Images.map((image, index) => (
             <img
               key={`col1-${index}`}
@@ -160,7 +169,7 @@ const Gallery: React.FC = () => {
           ))}
         </div>
         
-        <div className="min-w-60 flex-1 shrink basis-0">
+        <div className="w-full md:min-w-60 md:flex-1 md:shrink md:basis-0">
           {column2Images.map((image, index) => (
             <img
               key={`col2-${index}`}
