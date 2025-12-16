@@ -3,7 +3,7 @@ import Navigation from '@/components/Navigation';
 
 const Armagh: React.FC = () => {
   return (
-    <div className="bg-[#8B9B7A] min-h-screen">
+    <div className="bg-[#8B9B7A] min-h-screen animate-fade-in">
       <Navigation activeProject="ARMAGH" variant="light" />
       
       <main className="ml-[285px] max-md:ml-0">

@@ -1,7 +1,7 @@
 import React from 'react';
 import Navigation from '../components/Navigation';
 const Zen: React.FC = () => {
-  return <div className="bg-[#7A2B32] min-h-screen">
+  return <div className="bg-[#7A2B32] min-h-screen animate-fade-in">
       <Navigation activeProject="ZEN" variant="zen" />
       
       <main className="ml-[285px] max-md:ml-0">

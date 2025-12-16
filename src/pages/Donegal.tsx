@@ -3,7 +3,7 @@ import Navigation from '../components/Navigation';
 
 const Donegal: React.FC = () => {
   return (
-    <div className="bg-[#2D3D42] min-h-screen">
+    <div className="bg-[#2D3D42] min-h-screen animate-fade-in">
       <Navigation activeProject="DONEGAL" variant="light" />
       
       <main className="ml-[285px] max-md:ml-0">
