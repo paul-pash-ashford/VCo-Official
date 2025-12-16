@@ -129,12 +129,12 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
 
       {/* Mobile overlay menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-50 animate-fade-in">
+        <div className="md:hidden fixed inset-0 z-50">
           <div 
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <nav className={`absolute inset-0 ${textColor} font-medium pt-16 px-8 bg-inherit`}
+          <nav className={`absolute inset-0 ${textColor} font-medium pt-16 px-8 animate-slide-in-right`}
             style={{ 
               backgroundColor: variant === 'light' ? 'rgba(0,0,0,0.9)' : 
                              variant === 'zen' ? '#7A2B32' : 
