@@ -3,7 +3,7 @@ import Navigation from '../components/Navigation';
 
 const WardAve: React.FC = () => {
   return (
-    <div className="bg-[#707B85] min-h-screen">
+    <div className="bg-[#707B85] min-h-screen animate-fade-in">
       <Navigation activeProject="WARD AVE" variant="light" />
       
       <main className="ml-[285px] max-md:ml-0">

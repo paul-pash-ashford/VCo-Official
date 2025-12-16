@@ -3,7 +3,7 @@ import Navigation from '../components/Navigation';
 
 const Bangor: React.FC = () => {
   return (
-    <div className="bg-[#E8E8E8] min-h-screen">
+    <div className="bg-[#E8E8E8] min-h-screen animate-fade-in">
       <Navigation activeProject="BANGOR" variant="dark" />
       
       <main className="ml-[285px] max-md:ml-0">
