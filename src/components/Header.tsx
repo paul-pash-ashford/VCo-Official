@@ -13,7 +13,7 @@ const Header: React.FC = () => {
         </span>
       </h1>
       
-      <p className="text-base leading-10 mt-12 max-w-4xl max-md:mt-10">
+      <p className="text-base leading-normal mt-12 max-w-4xl max-md:mt-10">
         A contemporary design for a young couple, based in Dublin, whose
         vision for their home was to create a dramatic but also calm
         environment. A balance between the new contemporary extension and
