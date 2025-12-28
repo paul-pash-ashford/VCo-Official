@@ -18,7 +18,7 @@ const Armagh: React.FC = () => {
             </span>
           </h1>
           
-          <p className="text-base leading-normal mt-12 max-w-4xl max-md:mt-10">
+          <p className="text-base leading-[3] mt-12 max-w-4xl max-md:mt-10">
             This 1890's Victorian home exudes a vintage character with a new, modern personality. A dramatic open plan kitchen and living quarter is the core experience in this home, designed for a client who loves to cook, host and entertain. The traditional aesthetics are respected throughout, especially in the guest and master bedrooms, hallway and dining room.
           </p>
         </header>
