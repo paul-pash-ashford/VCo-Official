@@ -12,10 +12,10 @@ const Zen: React.FC = () => {
           <p className="text-sm tracking-[0.3em] mt-6 uppercase">
             Belfast
           </p>
-          <p className="text-base leading-normal mt-16 max-w-3xl max-md:mt-10">
+          <p className="text-base leading-[3] mt-16 max-w-3xl max-md:mt-10">
             House of Zen situated in St. Anne's Square, Belfast.
           </p>
-          <p className="text-base leading-normal mt-6 max-w-3xl">In traditional Chinese fashion the colour red symbolises fortune, luck, happiness and energy. Natural cork with reflective metallic details create interesting depths and textures throughout, adding a touch of drama alongside the red Mise En Scene silk range, chosen to complement and enhance of the dark interior design of the restaurant.</p>
+          <p className="text-base leading-[3] mt-6 max-w-3xl">In traditional Chinese fashion the colour red symbolises fortune, luck, happiness and energy. Natural cork with reflective metallic details create interesting depths and textures throughout, adding a touch of drama alongside the red Mise En Scene silk range, chosen to complement and enhance of the dark interior design of the restaurant.</p>
         </header>
       </main>
     </div>;
