@@ -21,6 +21,15 @@ import armaghFloorTiles from '@/assets/armagh/armagh-floor-tiles.png';
 import armaghCabinet from '@/assets/armagh/armagh-cabinet.png';
 import armaghMarbleCounter from '@/assets/armagh/armagh-marble-counter.png';
 import armaghSittingArea from '@/assets/armagh/armagh-sitting-area.png';
+import armaghPendantLight from '@/assets/armagh/armagh-pendant-light.png';
+import armaghBlueSofa from '@/assets/armagh/armagh-blue-sofa.png';
+import armaghFireplace from '@/assets/armagh/armagh-fireplace.png';
+import armaghScallopShower from '@/assets/armagh/armagh-scallop-shower.png';
+import armaghBirdArt from '@/assets/armagh/armagh-bird-art.png';
+import armaghColorfulBedroom from '@/assets/armagh/armagh-colorful-bedroom.png';
+import armaghMarbleBathroom from '@/assets/armagh/armagh-marble-bathroom.png';
+import armaghMasterBedroom from '@/assets/armagh/armagh-master-bedroom.png';
+import armaghLuxuryBathroom from '@/assets/armagh/armagh-luxury-bathroom.png';
 
 const ArmaghGallery: React.FC = () => {
   const [viewMode, setViewMode] = useState<'masonry' | 'slideshow'>('masonry');
@@ -46,7 +55,16 @@ const ArmaghGallery: React.FC = () => {
     { src: armaghFloorTiles, alt: "Decorative floor tiles" },
     { src: armaghCabinet, alt: "Kitchen display cabinet" },
     { src: armaghMarbleCounter, alt: "Marble kitchen countertop" },
-    { src: armaghSittingArea, alt: "Sitting area with patterned chairs" }
+    { src: armaghSittingArea, alt: "Sitting area with patterned chairs" },
+    { src: armaghPendantLight, alt: "Modern geometric pendant light" },
+    { src: armaghBlueSofa, alt: "Blue sofa living room" },
+    { src: armaghFireplace, alt: "Victorian fireplace with green wallpaper" },
+    { src: armaghScallopShower, alt: "Scallop tile shower bathroom" },
+    { src: armaghBirdArt, alt: "Bedroom with bird artwork" },
+    { src: armaghColorfulBedroom, alt: "Colorful guest bedroom" },
+    { src: armaghMarbleBathroom, alt: "Marble herringbone bathroom" },
+    { src: armaghMasterBedroom, alt: "Master bedroom with pendant light" },
+    { src: armaghLuxuryBathroom, alt: "Luxury bathroom with artwork" }
   ];
 
   const column1Images = [
@@ -59,7 +77,12 @@ const ArmaghGallery: React.FC = () => {
     { src: armaghKitchenWide, aspect: "aspect-[1.5]" },
     { src: armaghStaircase, aspect: "aspect-[0.75]" },
     { src: armaghCabinet, aspect: "aspect-[0.75]" },
-    { src: armaghSittingArea, aspect: "aspect-[0.85]" }
+    { src: armaghSittingArea, aspect: "aspect-[0.85]" },
+    { src: armaghPendantLight, aspect: "aspect-[1.5]" },
+    { src: armaghFireplace, aspect: "aspect-[1.5]" },
+    { src: armaghBirdArt, aspect: "aspect-[0.65]" },
+    { src: armaghMarbleBathroom, aspect: "aspect-[1.5]" },
+    { src: armaghLuxuryBathroom, aspect: "aspect-[1.5]" }
   ];
 
   const column2Images = [
@@ -71,7 +94,11 @@ const ArmaghGallery: React.FC = () => {
     { src: armaghBedroomEnsuite, aspect: "aspect-[0.65]" },
     { src: armaghLivingSofa, aspect: "aspect-[1.5]" },
     { src: armaghFloorTiles, aspect: "aspect-[0.85]" },
-    { src: armaghMarbleCounter, aspect: "aspect-[0.75]" }
+    { src: armaghMarbleCounter, aspect: "aspect-[0.75]" },
+    { src: armaghBlueSofa, aspect: "aspect-[1.5]" },
+    { src: armaghScallopShower, aspect: "aspect-[0.65]" },
+    { src: armaghColorfulBedroom, aspect: "aspect-[1.6]" },
+    { src: armaghMasterBedroom, aspect: "aspect-[0.7]" }
   ];
 
   const nextSlide = useCallback(() => setCurrentSlide((prev) => (prev + 1) % allImages.length), [allImages.length]);
