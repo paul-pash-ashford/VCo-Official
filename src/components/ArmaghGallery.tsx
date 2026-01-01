@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { LayoutGrid, Square, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 import armaghKitchen1 from '@/assets/armagh/armagh-kitchen-1.png';
@@ -33,9 +34,15 @@ import armaghLuxuryBathroom from '@/assets/armagh/armagh-luxury-bathroom.png';
 
 const ArmaghGallery: React.FC = () => {
   const [viewMode, setViewMode] = useState<'masonry' | 'slideshow'>('masonry');
+  const [startIndex, setStartIndex] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true,
+    startIndex: startIndex,
+    align: 'center',
+  });
+
   const allImages = [
     { src: armaghKitchen1, alt: "Victorian home kitchen with green cabinets" },
     { src: armaghBedroom1, alt: "Master bedroom with teal walls" },
@@ -103,32 +110,44 @@ const ArmaghGallery: React.FC = () => {
   ];
 
   const nextSlide = useCallback(() => {
-    if (isAnimating) return;
-    setSlideDirection('left');
-    setIsAnimating(true);
-    setTimeout(() => {
-      setCurrentSlide((prev) => (prev + 1) % allImages.length);
-      setIsAnimating(false);
-    }, 400);
-  }, [allImages.length, isAnimating]);
+    emblaApi?.scrollNext();
+  }, [emblaApi]);
 
   const prevSlide = useCallback(() => {
-    if (isAnimating) return;
-    setSlideDirection('right');
-    setIsAnimating(true);
-    setTimeout(() => {
-      setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length);
-      setIsAnimating(false);
-    }, 400);
-  }, [allImages.length, isAnimating]);
+    emblaApi?.scrollPrev();
+  }, [emblaApi]);
+
   const openSlideshow = (imageSrc: string) => {
     const index = allImages.findIndex(img => img.src === imageSrc);
     if (index !== -1) {
+      setStartIndex(index);
       setCurrentSlide(index);
       setViewMode('slideshow');
     }
   };
 
+  // Scroll to correct slide when opening slideshow
+  useEffect(() => {
+    if (viewMode === 'slideshow' && emblaApi) {
+      emblaApi.scrollTo(startIndex, true);
+    }
+  }, [viewMode, emblaApi, startIndex]);
+
+  // Track current slide
+  useEffect(() => {
+    if (!emblaApi) return;
+    
+    const onSelect = () => {
+      setCurrentSlide(emblaApi.selectedScrollSnap());
+    };
+    
+    emblaApi.on('select', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi]);
+
+  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (viewMode !== 'slideshow') return;
@@ -166,7 +185,7 @@ const ArmaghGallery: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in">
           {/* Overlay */}
           <div 
-            className="absolute inset-0 bg-neutral-200/95 backdrop-blur-sm transition-opacity duration-300"
+            className="absolute inset-0 bg-neutral-200/95 backdrop-blur-sm"
             onClick={() => setViewMode('masonry')}
           />
           
@@ -179,84 +198,46 @@ const ArmaghGallery: React.FC = () => {
             <X size={28} strokeWidth={1.5} />
           </button>
           
-          {/* Carousel Container */}
-          <div 
-            className="relative z-10 w-full h-full flex items-center justify-center px-4 md:px-16"
-            style={{
-              transform: isAnimating 
-                ? `translateX(${slideDirection === 'left' ? '-8%' : '8%'})` 
-                : 'translateX(0)',
-              transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            }}
-          >
-            {/* Previous Image (Left) */}
-            <div 
-              className="hidden md:block absolute left-0 w-[25%] h-[60vh] cursor-pointer transition-opacity duration-300 hover:opacity-80"
+          {/* Embla Carousel */}
+          <div className="relative z-10 w-full h-full flex items-center">
+            <div className="overflow-hidden w-full" ref={emblaRef}>
+              <div className="flex items-center">
+                {allImages.map((image, index) => (
+                  <div 
+                    key={index} 
+                    className="flex-[0_0_66%] min-w-0 px-2 md:px-4 flex items-center justify-center h-[70vh]"
+                  >
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="max-h-full max-w-full object-contain rounded-lg shadow-2xl"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Navigation Buttons */}
+            <button
               onClick={prevSlide}
+              className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-neutral-400 bg-white/80 flex items-center justify-center text-neutral-600 hover:bg-white transition-all z-20"
+              aria-label="Previous image"
             >
-              <img
-                src={allImages[(currentSlide - 1 + allImages.length) % allImages.length].src}
-                alt={allImages[(currentSlide - 1 + allImages.length) % allImages.length].alt}
-                className="w-full h-full object-cover rounded-lg shadow-lg opacity-70"
-              />
-              {/* Left Arrow */}
-              <button
-                onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-white/60 bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/40 transition-all"
-                aria-label="Previous image"
-              >
-                <ChevronLeft size={20} strokeWidth={1.5} />
-              </button>
-            </div>
-            
-            {/* Current Image (Center) */}
-            <div className="relative w-full md:w-[50%] h-[70vh] md:h-[70vh] flex items-center justify-center">
-              <img
-                src={allImages[currentSlide].src}
-                alt={allImages[currentSlide].alt}
-                className="max-h-full max-w-full object-contain rounded-lg shadow-2xl"
-              />
-            </div>
-            
-            {/* Next Image (Right) */}
-            <div 
-              className="hidden md:block absolute right-0 w-[25%] h-[60vh] cursor-pointer transition-opacity duration-300 hover:opacity-80"
+              <ChevronLeft size={24} strokeWidth={1.5} />
+            </button>
+            <button
               onClick={nextSlide}
+              className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-neutral-400 bg-white/80 flex items-center justify-center text-neutral-600 hover:bg-white transition-all z-20"
+              aria-label="Next image"
             >
-              <img
-                src={allImages[(currentSlide + 1) % allImages.length].src}
-                alt={allImages[(currentSlide + 1) % allImages.length].alt}
-                className="w-full h-full object-cover rounded-lg shadow-lg opacity-70"
-              />
-              {/* Right Arrow */}
-              <button
-                onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-white/60 bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/40 transition-all"
-                aria-label="Next image"
-              >
-                <ChevronRight size={20} strokeWidth={1.5} />
-              </button>
-            </div>
+              <ChevronRight size={24} strokeWidth={1.5} />
+            </button>
             
-            {/* Mobile Navigation */}
-            <div className="md:hidden absolute bottom-8 left-0 right-0 flex items-center justify-center gap-8">
-              <button
-                onClick={prevSlide}
-                className="w-12 h-12 rounded-full border border-neutral-400 bg-white/80 flex items-center justify-center text-neutral-600 hover:bg-white transition-all"
-                aria-label="Previous image"
-              >
-                <ChevronLeft size={24} strokeWidth={1.5} />
-              </button>
-              <span className="text-neutral-600 text-sm">
+            {/* Slide Counter */}
+            <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center">
+              <span className="text-neutral-600 text-sm bg-white/80 px-4 py-2 rounded-full">
                 {currentSlide + 1} / {allImages.length}
               </span>
-              <button
-                onClick={nextSlide}
-                className="w-12 h-12 rounded-full border border-neutral-400 bg-white/80 flex items-center justify-center text-neutral-600 hover:bg-white transition-all"
-                aria-label="Next image"
-              >
-                <ChevronRight size={24} strokeWidth={1.5} />
-              </button>
             </div>
           </div>
         </div>
