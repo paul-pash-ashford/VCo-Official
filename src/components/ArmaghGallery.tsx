@@ -34,7 +34,7 @@ import armaghLuxuryBathroom from '@/assets/armagh/armagh-luxury-bathroom.png';
 const ArmaghGallery: React.FC = () => {
   const [viewMode, setViewMode] = useState<'masonry' | 'slideshow'>('masonry');
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
 
   const allImages = [
     { src: armaghKitchen1, alt: "Victorian home kitchen with green cabinets" },
@@ -103,18 +103,22 @@ const ArmaghGallery: React.FC = () => {
   ];
 
   const nextSlide = useCallback(() => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentSlide((prev) => (prev + 1) % allImages.length);
-    setTimeout(() => setIsTransitioning(false), 300);
-  }, [allImages.length, isTransitioning]);
+    if (slideDirection) return;
+    setSlideDirection('left');
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev + 1) % allImages.length);
+      setSlideDirection(null);
+    }, 250);
+  }, [allImages.length, slideDirection]);
 
   const prevSlide = useCallback(() => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length);
-    setTimeout(() => setIsTransitioning(false), 300);
-  }, [allImages.length, isTransitioning]);
+    if (slideDirection) return;
+    setSlideDirection('right');
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length);
+      setSlideDirection(null);
+    }, 250);
+  }, [allImages.length, slideDirection]);
 
   const openSlideshow = (imageSrc: string) => {
     const index = allImages.findIndex(img => img.src === imageSrc);
@@ -158,7 +162,7 @@ const ArmaghGallery: React.FC = () => {
       </div>
 
       {viewMode === 'slideshow' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
           {/* Overlay */}
           <div 
             className="absolute inset-0 bg-neutral-200/95 backdrop-blur-sm transition-opacity duration-300"
@@ -198,9 +202,8 @@ const ArmaghGallery: React.FC = () => {
             
             {/* Current Image (Center) */}
             <div 
-              key={currentSlide}
-              className={`relative w-full md:w-[50%] h-[70vh] md:h-[70vh] flex items-center justify-center transition-all duration-300 ease-out ${
-                isTransitioning ? 'opacity-0 scale-[0.98]' : 'opacity-100 scale-100'
+              className={`relative w-full md:w-[50%] h-[70vh] md:h-[70vh] flex items-center justify-center transition-transform duration-250 ease-out ${
+                slideDirection === 'left' ? '-translate-x-full' : slideDirection === 'right' ? 'translate-x-full' : 'translate-x-0'
               }`}
             >
               <img
