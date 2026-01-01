@@ -1,5 +1,6 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
+import ArmaghGallery from '@/components/ArmaghGallery';
 
 const Armagh: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const Armagh: React.FC = () => {
             This 1890's Victorian home exudes a vintage character with a new, modern personality. A dramatic open plan kitchen and living quarter is the core experience in this home, designed for a client who loves to cook, host and entertain. The traditional aesthetics are respected throughout, especially in the guest and master bedrooms, hallway and dining room.
           </p>
         </header>
+        <ArmaghGallery />
       </main>
     </div>
   );
