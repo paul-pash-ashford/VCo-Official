@@ -34,7 +34,6 @@ import armaghLuxuryBathroom from '@/assets/armagh/armagh-luxury-bathroom.png';
 const ArmaghGallery: React.FC = () => {
   const [viewMode, setViewMode] = useState<'masonry' | 'slideshow'>('masonry');
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
 
   const allImages = [
     { src: armaghKitchen1, alt: "Victorian home kitchen with green cabinets" },
@@ -102,23 +101,8 @@ const ArmaghGallery: React.FC = () => {
     { src: armaghMasterBedroom, aspect: "aspect-[0.7]" }
   ];
 
-  const nextSlide = useCallback(() => {
-    if (slideDirection) return;
-    setSlideDirection('left');
-    setTimeout(() => {
-      setCurrentSlide((prev) => (prev + 1) % allImages.length);
-      setSlideDirection(null);
-    }, 250);
-  }, [allImages.length, slideDirection]);
-
-  const prevSlide = useCallback(() => {
-    if (slideDirection) return;
-    setSlideDirection('right');
-    setTimeout(() => {
-      setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length);
-      setSlideDirection(null);
-    }, 250);
-  }, [allImages.length, slideDirection]);
+  const nextSlide = useCallback(() => setCurrentSlide((prev) => (prev + 1) % allImages.length), [allImages.length]);
+  const prevSlide = useCallback(() => setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length), [allImages.length]);
 
   const openSlideshow = (imageSrc: string) => {
     const index = allImages.findIndex(img => img.src === imageSrc);
@@ -162,7 +146,7 @@ const ArmaghGallery: React.FC = () => {
       </div>
 
       {viewMode === 'slideshow' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in">
           {/* Overlay */}
           <div 
             className="absolute inset-0 bg-neutral-200/95 backdrop-blur-sm transition-opacity duration-300"
@@ -201,11 +185,7 @@ const ArmaghGallery: React.FC = () => {
             </div>
             
             {/* Current Image (Center) */}
-            <div 
-              className={`relative w-full md:w-[50%] h-[70vh] md:h-[70vh] flex items-center justify-center transition-transform duration-250 ease-out ${
-                slideDirection === 'left' ? '-translate-x-full' : slideDirection === 'right' ? 'translate-x-full' : 'translate-x-0'
-              }`}
-            >
+            <div className="relative w-full md:w-[50%] h-[70vh] md:h-[70vh] flex items-center justify-center animate-scale-in">
               <img
                 src={allImages[currentSlide].src}
                 alt={allImages[currentSlide].alt}
