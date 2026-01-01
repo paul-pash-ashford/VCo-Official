@@ -34,7 +34,8 @@ import armaghLuxuryBathroom from '@/assets/armagh/armagh-luxury-bathroom.png';
 const ArmaghGallery: React.FC = () => {
   const [viewMode, setViewMode] = useState<'masonry' | 'slideshow'>('masonry');
   const [currentSlide, setCurrentSlide] = useState(0);
-
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
   const allImages = [
     { src: armaghKitchen1, alt: "Victorian home kitchen with green cabinets" },
     { src: armaghBedroom1, alt: "Master bedroom with teal walls" },
@@ -101,9 +102,25 @@ const ArmaghGallery: React.FC = () => {
     { src: armaghMasterBedroom, aspect: "aspect-[0.7]" }
   ];
 
-  const nextSlide = useCallback(() => setCurrentSlide((prev) => (prev + 1) % allImages.length), [allImages.length]);
-  const prevSlide = useCallback(() => setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length), [allImages.length]);
+  const nextSlide = useCallback(() => {
+    if (isAnimating) return;
+    setSlideDirection('left');
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev + 1) % allImages.length);
+      setIsAnimating(false);
+    }, 400);
+  }, [allImages.length, isAnimating]);
 
+  const prevSlide = useCallback(() => {
+    if (isAnimating) return;
+    setSlideDirection('right');
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev - 1 + allImages.length) % allImages.length);
+      setIsAnimating(false);
+    }, 400);
+  }, [allImages.length, isAnimating]);
   const openSlideshow = (imageSrc: string) => {
     const index = allImages.findIndex(img => img.src === imageSrc);
     if (index !== -1) {
@@ -163,10 +180,18 @@ const ArmaghGallery: React.FC = () => {
           </button>
           
           {/* Carousel Container */}
-          <div className="relative z-10 w-full h-full flex items-center justify-center px-4 md:px-16">
+          <div 
+            className="relative z-10 w-full h-full flex items-center justify-center px-4 md:px-16"
+            style={{
+              transform: isAnimating 
+                ? `translateX(${slideDirection === 'left' ? '-8%' : '8%'})` 
+                : 'translateX(0)',
+              transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            }}
+          >
             {/* Previous Image (Left) */}
             <div 
-              className="hidden md:block absolute left-0 w-[25%] h-[60vh] cursor-pointer transition-all duration-300 hover:opacity-80"
+              className="hidden md:block absolute left-0 w-[25%] h-[60vh] cursor-pointer transition-opacity duration-300 hover:opacity-80"
               onClick={prevSlide}
             >
               <img
@@ -185,7 +210,7 @@ const ArmaghGallery: React.FC = () => {
             </div>
             
             {/* Current Image (Center) */}
-            <div className="relative w-full md:w-[50%] h-[70vh] md:h-[70vh] flex items-center justify-center animate-scale-in">
+            <div className="relative w-full md:w-[50%] h-[70vh] md:h-[70vh] flex items-center justify-center">
               <img
                 src={allImages[currentSlide].src}
                 alt={allImages[currentSlide].alt}
@@ -195,7 +220,7 @@ const ArmaghGallery: React.FC = () => {
             
             {/* Next Image (Right) */}
             <div 
-              className="hidden md:block absolute right-0 w-[25%] h-[60vh] cursor-pointer transition-all duration-300 hover:opacity-80"
+              className="hidden md:block absolute right-0 w-[25%] h-[60vh] cursor-pointer transition-opacity duration-300 hover:opacity-80"
               onClick={nextSlide}
             >
               <img
