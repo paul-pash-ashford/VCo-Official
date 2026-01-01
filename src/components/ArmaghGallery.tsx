@@ -149,47 +149,88 @@ const ArmaghGallery: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in">
           {/* Overlay */}
           <div 
-            className="absolute inset-0 bg-background/60 backdrop-blur-2xl backdrop-saturate-150 transition-opacity duration-300"
+            className="absolute inset-0 bg-neutral-200/95 backdrop-blur-sm transition-opacity duration-300"
             onClick={() => setViewMode('masonry')}
           />
           
           {/* Close Button */}
           <button
             onClick={() => setViewMode('masonry')}
-            className="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 opacity-60 hover:opacity-100 transition-opacity"
+            className="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 text-neutral-600 opacity-60 hover:opacity-100 transition-opacity"
             aria-label="Close slideshow"
           >
             <X size={28} strokeWidth={1.5} />
           </button>
           
-          {/* Slideshow Container */}
-          <div className="relative z-10 w-full h-full md:w-[90vw] md:max-w-5xl md:h-[80vh] bg-[#8B9B7A] md:rounded-lg md:shadow-2xl flex flex-col items-center justify-center animate-scale-in">
-            <img
-              src={allImages[currentSlide].src}
-              alt={allImages[currentSlide].alt}
-              className="max-h-[calc(100%-80px)] max-w-full object-contain p-4 transition-opacity duration-200"
-            />
-            
-            {/* Bottom Navigation */}
-            <div className="absolute bottom-0 left-0 right-0 py-6 flex items-center justify-center gap-6 text-white">
+          {/* Carousel Container */}
+          <div className="relative z-10 w-full h-full flex items-center justify-center px-4 md:px-16">
+            {/* Previous Image (Left) */}
+            <div 
+              className="hidden md:block absolute left-0 w-[25%] h-[60vh] cursor-pointer transition-all duration-300 hover:opacity-80"
+              onClick={prevSlide}
+            >
+              <img
+                src={allImages[(currentSlide - 1 + allImages.length) % allImages.length].src}
+                alt={allImages[(currentSlide - 1 + allImages.length) % allImages.length].alt}
+                className="w-full h-full object-cover rounded-lg shadow-lg opacity-70"
+              />
+              {/* Left Arrow */}
               <button
-                onClick={prevSlide}
-                className="p-2 opacity-60 hover:opacity-100 transition-opacity"
+                onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-white/60 bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/40 transition-all"
                 aria-label="Previous image"
               >
-                <ChevronLeft size={24} strokeWidth={1} />
+                <ChevronLeft size={20} strokeWidth={1.5} />
               </button>
-              
-              <span className="text-sm opacity-80 min-w-[60px] text-center">
-                {currentSlide + 1} / {allImages.length}
-              </span>
-              
+            </div>
+            
+            {/* Current Image (Center) */}
+            <div className="relative w-full md:w-[50%] h-[70vh] md:h-[70vh] flex items-center justify-center animate-scale-in">
+              <img
+                src={allImages[currentSlide].src}
+                alt={allImages[currentSlide].alt}
+                className="max-h-full max-w-full object-contain rounded-lg shadow-2xl"
+              />
+            </div>
+            
+            {/* Next Image (Right) */}
+            <div 
+              className="hidden md:block absolute right-0 w-[25%] h-[60vh] cursor-pointer transition-all duration-300 hover:opacity-80"
+              onClick={nextSlide}
+            >
+              <img
+                src={allImages[(currentSlide + 1) % allImages.length].src}
+                alt={allImages[(currentSlide + 1) % allImages.length].alt}
+                className="w-full h-full object-cover rounded-lg shadow-lg opacity-70"
+              />
+              {/* Right Arrow */}
               <button
-                onClick={nextSlide}
-                className="p-2 opacity-60 hover:opacity-100 transition-opacity"
+                onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-white/60 bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/40 transition-all"
                 aria-label="Next image"
               >
-                <ChevronRight size={24} strokeWidth={1} />
+                <ChevronRight size={20} strokeWidth={1.5} />
+              </button>
+            </div>
+            
+            {/* Mobile Navigation */}
+            <div className="md:hidden absolute bottom-8 left-0 right-0 flex items-center justify-center gap-8">
+              <button
+                onClick={prevSlide}
+                className="w-12 h-12 rounded-full border border-neutral-400 bg-white/80 flex items-center justify-center text-neutral-600 hover:bg-white transition-all"
+                aria-label="Previous image"
+              >
+                <ChevronLeft size={24} strokeWidth={1.5} />
+              </button>
+              <span className="text-neutral-600 text-sm">
+                {currentSlide + 1} / {allImages.length}
+              </span>
+              <button
+                onClick={nextSlide}
+                className="w-12 h-12 rounded-full border border-neutral-400 bg-white/80 flex items-center justify-center text-neutral-600 hover:bg-white transition-all"
+                aria-label="Next image"
+              >
+                <ChevronRight size={24} strokeWidth={1.5} />
               </button>
             </div>
           </div>
