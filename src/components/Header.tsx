@@ -1,19 +1,19 @@
 import React from 'react';
+import AnimatedTitle from './AnimatedTitle';
+import AnimatedSubtitle from './AnimatedSubtitle';
+import AnimatedIntro from './AnimatedIntro';
 
 const Header: React.FC = () => {
   return (
     <header className="flex w-full flex-col overflow-hidden items-stretch text-foreground font-medium justify-center py-32 px-24 max-md:px-5 max-md:py-20">
-      <h1>
-        <span className="text-5xl tracking-[9.6px] uppercase max-md:text-3xl">
-          RESIDENTIAL HOME
-        </span>
-        <br />
-        <span className="text-lg tracking-[3.6px] mt-4 block">
-          BALLSBRIDGE, DUBLIN
-        </span>
-      </h1>
+      <AnimatedTitle className="text-5xl tracking-[9.6px] uppercase max-md:text-3xl">
+        RESIDENTIAL HOME
+      </AnimatedTitle>
+      <AnimatedSubtitle className="text-lg tracking-[3.6px] mt-4 block">
+        BALLSBRIDGE, DUBLIN
+      </AnimatedSubtitle>
       
-      <p className="text-base leading-[3] mt-12 max-w-4xl max-md:mt-10">
+      <AnimatedIntro className="text-base leading-[3] mt-12 max-w-4xl max-md:mt-10">
         A contemporary design for a young couple, based in Dublin, whose
         vision for their home was to create a dramatic but also calm
         environment. A balance between the new contemporary extension and
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
         furnishings, sleek porcelain flooring, and an evocative colour
         scheme, the space had a sense of calm balanced with brave artwork
         and accent colours.
-      </p>
+      </AnimatedIntro>
     </header>
   );
 };

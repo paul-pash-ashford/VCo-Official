@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { LayoutGrid, Square, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import Testimonial from './Testimonial';
+import AnimatedImage from './AnimatedImage';
 
 const Gallery: React.FC = () => {
   const [viewMode, setViewMode] = useState<'masonry' | 'slideshow'>('masonry');
@@ -148,12 +149,14 @@ const Gallery: React.FC = () => {
         </div>
       )}
 
-      <img
-        src="https://api.builder.io/api/v1/image/assets/dfa0ab7a55a34550a4a3de1deb33b8e5/a9494d6641553156331c08aad95d4fd01834e7b4"
-        alt="Main hero image of the Dublin residential home project"
-        className="aspect-[1.78] object-cover w-full rounded-sm cursor-pointer hover:opacity-90 transition-opacity"
-        onClick={() => openSlideshow("https://api.builder.io/api/v1/image/assets/dfa0ab7a55a34550a4a3de1deb33b8e5/a9494d6641553156331c08aad95d4fd01834e7b4")}
-      />
+      <AnimatedImage>
+        <img
+          src="https://api.builder.io/api/v1/image/assets/dfa0ab7a55a34550a4a3de1deb33b8e5/a9494d6641553156331c08aad95d4fd01834e7b4"
+          alt="Main hero image of the Dublin residential home project"
+          className="aspect-[1.78] object-cover w-full rounded-sm cursor-pointer hover:opacity-90 transition-opacity"
+          onClick={() => openSlideshow("https://api.builder.io/api/v1/image/assets/dfa0ab7a55a34550a4a3de1deb33b8e5/a9494d6641553156331c08aad95d4fd01834e7b4")}
+        />
+      </AnimatedImage>
       
       <div className="flex flex-col md:flex-row w-full">
         <div className="w-full md:min-w-60 md:flex-1 md:shrink md:basis-0">

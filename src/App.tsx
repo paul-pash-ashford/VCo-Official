@@ -10,6 +10,7 @@ import Donegal from "./pages/Donegal";
 import Zen from "./pages/Zen";
 import Bangor from "./pages/Bangor";
 import NotFound from "./pages/NotFound";
+import BackgroundColorTransition from "./components/BackgroundColorTransition";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <BackgroundColorTransition />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/armagh" element={<Armagh />} />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { LayoutGrid, Square, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import AnimatedImage from './AnimatedImage';
 
 import armaghKitchen1 from '@/assets/armagh/armagh-kitchen-1.png';
 import armaghBedroom1 from '@/assets/armagh/armagh-bedroom-1.png';
@@ -243,12 +244,14 @@ const ArmaghGallery: React.FC = () => {
         </div>
       )}
 
-      <img
-        src={armaghKitchen1}
-        alt="Victorian home kitchen with green cabinets and marble countertops"
-        className="aspect-[0.75] object-cover w-full rounded-sm cursor-pointer hover:opacity-90 transition-opacity"
-        onClick={() => openSlideshow(armaghKitchen1)}
-      />
+      <AnimatedImage>
+        <img
+          src={armaghKitchen1}
+          alt="Victorian home kitchen with green cabinets and marble countertops"
+          className="aspect-[0.75] object-cover w-full rounded-sm cursor-pointer hover:opacity-90 transition-opacity"
+          onClick={() => openSlideshow(armaghKitchen1)}
+        />
+      </AnimatedImage>
       
       <div className="flex flex-col md:flex-row w-full">
         <div className="w-full md:min-w-60 md:flex-1 md:shrink md:basis-0">
