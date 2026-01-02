@@ -15,7 +15,7 @@ const Armagh: React.FC = () => {
           <AnimatedTitle className="text-5xl tracking-[9.6px] uppercase max-md:text-3xl">
             RESIDENTIAL HOME
           </AnimatedTitle>
-          <AnimatedSubtitle className="text-lg tracking-[3.6px] mt-4 block">
+          <AnimatedSubtitle className="text-sm tracking-[0.3em] mt-6 uppercase">
             ARMAGH
           </AnimatedSubtitle>
           

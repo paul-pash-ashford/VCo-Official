@@ -22,6 +22,7 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ children, className = '' 
   const location = useLocation();
   const [isAnimating, setIsAnimating] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [opacity, setOpacity] = useState(1);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const previousPathRef = useRef<string>('');
@@ -34,13 +35,15 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ children, className = '' 
       // If we had a previous path, animate out first
       if (previousPathRef.current) {
         setIsAnimating(true);
-        setIsVisible(false); // Hide immediately to ensure clean transition
         startTimeRef.current = performance.now();
 
         const animateOut = (currentTime: number) => {
           const elapsed = currentTime - startTimeRef.current;
           const rawProgress = Math.min(elapsed / 750, 1); // 750ms outro (1.5x longer)
           const progress = easeOutCubic(rawProgress); // Apply gentle easing
+
+          // Fade out opacity
+          setOpacity(1 - progress);
 
           if (wrapperRef.current && titleRef.current) {
             // Slide down and mask out (clip from top)
@@ -56,7 +59,8 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ children, className = '' 
           if (rawProgress < 1) {
             animationFrameRef.current = requestAnimationFrame(animateOut);
           } else {
-            // Outro complete, wait a moment then start intro
+            // Outro complete - hide fully, then wait before showing new content
+            setIsVisible(false);
             previousPathRef.current = location.pathname;
             // Small delay to ensure old content is fully gone
             setTimeout(() => {
@@ -65,8 +69,11 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ children, className = '' 
 
               const animateIn = (currentTime: number) => {
                 const elapsed = currentTime - startTimeRef.current;
-                const rawProgress = Math.min(elapsed / 1050, 1); // 1050ms intro (1.5x longer)
+                const rawProgress = Math.min(elapsed / 1200, 1); // 1200ms intro
                 const progress = easeInOutCubic(rawProgress); // Apply gentle easing
+
+                // Fade in opacity
+                setOpacity(progress);
 
                 if (wrapperRef.current && titleRef.current) {
                   // Slide in from above and mask reveal upwards (clip from top, reveal from bottom)
@@ -108,7 +115,7 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ children, className = '' 
 
         const animateIn = (currentTime: number) => {
           const elapsed = currentTime - startTimeRef.current;
-          const rawProgress = Math.min(elapsed / 1050, 1); // 1050ms intro (1.5x longer)
+          const rawProgress = Math.min(elapsed / 1200, 1); // 1200ms intro
           const progress = easeInOutCubic(rawProgress);
 
           if (wrapperRef.current && titleRef.current) {
@@ -159,9 +166,9 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ children, className = '' 
         ref={titleRef}
         className={className}
         style={{
-          opacity: isVisible ? 1 : 0,
+          opacity: isVisible ? opacity : 0,
           transition: isAnimating ? 'none' : 'opacity 0.3s ease',
-          willChange: isAnimating ? 'transform' : 'auto',
+          willChange: isAnimating ? 'opacity, transform' : 'auto',
         }}
       >
         {children}

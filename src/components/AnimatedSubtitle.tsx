@@ -26,8 +26,15 @@ const AnimatedSubtitle: React.FC<AnimatedSubtitleProps> = ({ children, className
   const previousPathRef = useRef<string>('');
   const animationFrameRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    // Clear any pending timeout
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    
     // Check if route changed
     if (previousPathRef.current !== location.pathname) {
       // If we had a previous path, animate out first
@@ -48,7 +55,8 @@ const AnimatedSubtitle: React.FC<AnimatedSubtitleProps> = ({ children, className
             // Outro complete, wait a moment then start intro
             previousPathRef.current = location.pathname;
             // Small delay to ensure old content is fully gone
-            setTimeout(() => {
+            timeoutRef.current = setTimeout(() => {
+              timeoutRef.current = null;
               startTimeRef.current = performance.now();
 
               const animateIn = (currentTime: number) => {
@@ -93,7 +101,8 @@ const AnimatedSubtitle: React.FC<AnimatedSubtitleProps> = ({ children, className
         };
 
         // Delay before fade in to match title animation timing
-        setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
+          timeoutRef.current = null;
           animationFrameRef.current = requestAnimationFrame(animateIn);
         }, 500);
       }
@@ -103,6 +112,10 @@ const AnimatedSubtitle: React.FC<AnimatedSubtitleProps> = ({ children, className
       if (animationFrameRef.current !== null) {
         cancelAnimationFrame(animationFrameRef.current);
         animationFrameRef.current = null;
+      }
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
       }
     };
   }, [location.pathname]);

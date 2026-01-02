@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { LayoutGrid, Square, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import Testimonial from './Testimonial';
 import AnimatedImage from './AnimatedImage';
 
@@ -80,23 +80,6 @@ const Gallery: React.FC = () => {
 
   return (
     <section className="w-full overflow-hidden">
-      {/* View Toggle Buttons */}
-      <div className="flex gap-2 mb-4">
-        <button
-          onClick={() => setViewMode('masonry')}
-          className={`p-2 rounded transition-opacity ${viewMode === 'masonry' ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}
-          aria-label="Masonry view"
-        >
-          <LayoutGrid size={18} strokeWidth={1.5} />
-        </button>
-        <button
-          onClick={() => setViewMode('slideshow')}
-          className={`p-2 rounded transition-opacity ${viewMode === 'slideshow' ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}
-          aria-label="Slideshow view"
-        >
-          <Square size={18} strokeWidth={1.5} />
-        </button>
-      </div>
 
       {viewMode === 'slideshow' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in">
