@@ -3,7 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import About from "./pages/About";
+import Dublin from "./pages/Dublin";
 import Armagh from "./pages/Armagh";
 import WardAve from "./pages/WardAve";
 import Donegal from "./pages/Donegal";
@@ -22,7 +23,8 @@ const App = () => (
       <BrowserRouter>
         <BackgroundColorTransition />
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<About />} />
+          <Route path="/dublin" element={<Dublin />} />
           <Route path="/armagh" element={<Armagh />} />
           <Route path="/ward-ave" element={<WardAve />} />
           <Route path="/donegal" element={<Donegal />} />

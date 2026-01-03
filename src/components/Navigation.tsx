@@ -48,8 +48,9 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
 
   const getRoute = (proj: string) => {
     switch (proj) {
+      case 'ABOUT': return '/';
       case 'ARMAGH': return '/armagh';
-      case 'DUBLIN': return '/';
+      case 'DUBLIN': return '/dublin';
       case 'WARD AVE': return '/ward-ave';
       case 'DONEGAL': return '/donegal';
       case 'BANGOR': return '/bangor';
@@ -161,7 +162,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
       )}
 
       {/* Desktop navigation */}
-      <nav className={`hidden md:block min-w-60 min-h-screen ${textColor} font-medium w-[285px] pt-16 px-16 fixed left-0 top-0 h-full`}>
+      <nav className={`hidden md:block min-w-60 min-h-screen ${textColor} font-medium w-[285px] pt-16 px-16 fixed left-0 top-0 h-full z-10`}>
         <header className="text-4xl leading-none tracking-[-1.07px] font-bold">
           V&Co
         </header>
