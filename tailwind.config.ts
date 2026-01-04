@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         brockmann: ['"Brockmann Regular"', 'Brockmann', 'sans-serif'],
+        'inclusive-sans': ['"Inclusive Sans"', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

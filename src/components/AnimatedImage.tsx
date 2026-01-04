@@ -163,13 +163,15 @@ const AnimatedImage: React.FC<AnimatedImageProps> = ({ children, className = '' 
 
                     const animateIn = (currentTime: number) => {
                       const elapsed = currentTime - startTimeRef.current;
-                      const rawProgress = Math.min(elapsed / 900, 1); // 900ms fade in
-                      const progress = easeInOutCubic(rawProgress);
+                      const rawProgressOpacity = Math.min(elapsed / 300, 1); // 600ms fade in (quicker)
+                      const rawProgressTranslate = Math.min(elapsed / 600, 1); // 900ms slide (unchanged)
+                      const progressOpacity = easeInOutCubic(rawProgressOpacity);
+                      const progressTranslate = easeInOutCubic(rawProgressTranslate);
 
-                      setOpacity(progress);
-                      setTranslateY(30 - progress * 30); // Start 30px below, slide up to 0
+                      setOpacity(progressOpacity);
+                      setTranslateY(30 - progressTranslate * 30); // Start 30px below, slide up to 0
 
-                      if (rawProgress < 1) {
+                      if (rawProgressTranslate < 1) {
                         animationFrameRef.current = requestAnimationFrame(animateIn);
                       } else {
                         animationFrameRef.current = null;
@@ -210,13 +212,15 @@ const AnimatedImage: React.FC<AnimatedImageProps> = ({ children, className = '' 
 
               const animateIn = (currentTime: number) => {
                 const elapsed = currentTime - startTimeRef.current;
-                const rawProgress = Math.min(elapsed / 900, 1); // 900ms fade in
-                const progress = easeInOutCubic(rawProgress);
+                const rawProgressOpacity = Math.min(elapsed / 300, 1); // 600ms fade in (quicker)
+                const rawProgressTranslate = Math.min(elapsed / 600, 1); // 900ms slide (unchanged)
+                const progressOpacity = easeInOutCubic(rawProgressOpacity);
+                const progressTranslate = easeInOutCubic(rawProgressTranslate);
 
-                setOpacity(progress);
-                setTranslateY(30 - progress * 30); // Start 30px below, slide up to 0
+                setOpacity(progressOpacity);
+                setTranslateY(30 - progressTranslate * 30); // Start 30px below, slide up to 0
 
-                if (rawProgress < 1) {
+                if (rawProgressTranslate < 1) {
                   animationFrameRef.current = requestAnimationFrame(animateIn);
                 } else {
                   animationFrameRef.current = null;
@@ -253,13 +257,15 @@ const AnimatedImage: React.FC<AnimatedImageProps> = ({ children, className = '' 
 
               const animateIn = (currentTime: number) => {
                 const elapsed = currentTime - startTimeRef.current;
-                const rawProgress = Math.min(elapsed / 900, 1);
-                const progress = easeInOutCubic(rawProgress);
+                const rawProgressOpacity = Math.min(elapsed / 600, 1); // 600ms fade in (quicker)
+                const rawProgressTranslate = Math.min(elapsed / 900, 1); // 900ms slide (unchanged)
+                const progressOpacity = easeInOutCubic(rawProgressOpacity);
+                const progressTranslate = easeInOutCubic(rawProgressTranslate);
 
-                setOpacity(progress);
-                setTranslateY(30 - progress * 30);
+                setOpacity(progressOpacity);
+                setTranslateY(30 - progressTranslate * 30);
 
-                if (rawProgress < 1) {
+                if (rawProgressTranslate < 1) {
                   animationFrameRef.current = requestAnimationFrame(animateIn);
                 } else {
                   animationFrameRef.current = null;

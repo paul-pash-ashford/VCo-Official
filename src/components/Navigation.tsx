@@ -31,9 +31,9 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
         };
       case 'zen':
         return {
-          textColor: 'text-[#E8A5A5]',
-          activeStyles: 'bg-[#E8A5A5] text-[#7A2B32]',
-          hoverStyles: 'bg-[#E8A5A5]/20'
+          textColor: 'text-[#F2B8BC]',
+          activeStyles: 'bg-[#F2B8BC] text-[#7A2B32]',
+          hoverStyles: 'bg-[#F2B8BC]/20'
         };
       default:
         return {
@@ -48,7 +48,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
 
   const getRoute = (proj: string) => {
     switch (proj) {
-      case 'ABOUT': return '/';
+      case 'ABOUT': return '/about';
       case 'ARMAGH': return '/armagh';
       case 'DUBLIN': return '/dublin';
       case 'WARD AVE': return '/ward-ave';
@@ -59,18 +59,41 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
     }
   };
 
-  const NavItems = () => (
-    <>
-      <section className="w-full">
-        {projects.map((project) => {
-          const route = getRoute(project);
-          
-          if (route) {
+  const NavItems = ({ isMobile = false }: { isMobile?: boolean }) => {
+    const baseClasses = isMobile 
+      ? 'block mt-4 px-2 py-1 first:mt-0 text-[26px]'
+      : 'block mt-2 px-1 py-0.5 first:mt-0';
+    
+    return (
+      <>
+        <section className="w-full">
+          {projects.map((project) => {
+            const route = getRoute(project);
+            
+            if (route) {
+              return (
+                <Link
+                  key={project}
+                  to={route}
+                  onClick={() => setMobileMenuOpen(false)}
+                  onMouseEnter={() => setHoveredItem(project)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  className={`w-auto text-left transition-colors duration-200 ${
+                    activeProject === project
+                      ? activeStyles
+                      : hoveredItem === project
+                      ? hoverStyles
+                      : 'bg-transparent'
+                  } ${baseClasses}`}
+                >
+                  {project}
+                </Link>
+              );
+            }
+            
             return (
-              <Link
+              <button
                 key={project}
-                to={route}
-                onClick={() => setMobileMenuOpen(false)}
                 onMouseEnter={() => setHoveredItem(project)}
                 onMouseLeave={() => setHoveredItem(null)}
                 className={`w-auto text-left transition-colors duration-200 ${
@@ -79,43 +102,16 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
                     : hoveredItem === project
                     ? hoverStyles
                     : 'bg-transparent'
-                } block mt-2 px-1 py-0.5 first:mt-0`}
+                } ${baseClasses}`}
               >
                 {project}
-              </Link>
+              </button>
             );
-          }
-          
-          return (
-            <button
-              key={project}
-              onMouseEnter={() => setHoveredItem(project)}
-              onMouseLeave={() => setHoveredItem(null)}
-              className={`w-auto text-left transition-colors duration-200 ${
-                activeProject === project
-                  ? activeStyles
-                  : hoveredItem === project
-                  ? hoverStyles
-                  : 'bg-transparent'
-              } block mt-2 px-1 py-0.5 first:mt-0`}
-            >
-              {project}
-            </button>
-          );
-        })}
-      </section>
-      
-      <button
-        onMouseEnter={() => setHoveredItem('CONTACT')}
-        onMouseLeave={() => setHoveredItem(null)}
-        className={`mt-12 px-1 py-0.5 max-md:mt-10 transition-colors duration-200 ${
-          hoveredItem === 'CONTACT' ? hoverStyles : 'bg-transparent'
-        }`}
-      >
-        CONTACT
-      </button>
-    </>
-  );
+          })}
+        </section>
+      </>
+    );
+  };
 
   return (
     <>
@@ -135,7 +131,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <nav className={`absolute inset-0 ${textColor} font-medium pt-16 px-8 animate-slide-in-right`}
+          <nav className={`absolute inset-0 ${textColor} font-medium flex flex-col justify-end pb-16 px-8 animate-slide-in-right`}
             style={{ 
               backgroundColor: variant === 'light' ? 'rgba(0,0,0,0.9)' : 
                              variant === 'zen' ? '#7A2B32' : 
@@ -150,12 +146,14 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
               <X size={28} />
             </button>
             
-            <header className="text-4xl leading-none tracking-[-1.07px] font-bold">
-              V&Co
-            </header>
+            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="absolute top-6 left-8">
+              <header className="text-4xl leading-none tracking-[-1.07px] font-bold hover:opacity-80 transition-opacity">
+                V&Co
+              </header>
+            </Link>
             
-            <div className="flex flex-col items-start text-[13px] uppercase mt-20">
-              <NavItems />
+            <div className="flex flex-col items-start uppercase w-full">
+              <NavItems isMobile={true} />
             </div>
           </nav>
         </div>
@@ -163,12 +161,14 @@ const Navigation: React.FC<NavigationProps> = ({ activeProject = 'Dublin', varia
 
       {/* Desktop navigation */}
       <nav className={`hidden md:block min-w-60 min-h-screen ${textColor} font-medium w-[285px] pt-16 px-16 fixed left-0 top-0 h-full z-10`}>
-        <header className="text-4xl leading-none tracking-[-1.07px] font-bold">
-          V&Co
-        </header>
+        <Link to="/" className="block">
+          <header className="text-4xl leading-none tracking-[-1.07px] font-bold hover:opacity-80 transition-opacity">
+            V&Co
+          </header>
+        </Link>
         
         <div className="flex flex-col items-start text-[13px] uppercase mt-20">
-          <NavItems />
+          <NavItems isMobile={false} />
         </div>
       </nav>
     </>

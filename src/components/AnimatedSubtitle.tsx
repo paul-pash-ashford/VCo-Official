@@ -22,102 +22,65 @@ const AnimatedSubtitle: React.FC<AnimatedSubtitleProps> = ({ children, className
   const location = useLocation();
   const [opacity, setOpacity] = useState(0);
   const [translateY, setTranslateY] = useState(-15);
+  const [hasAnimated, setHasAnimated] = useState(false);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const previousPathRef = useRef<string>('');
   const animationFrameRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Intersection Observer for scroll-triggered animation
   useEffect(() => {
-    // Clear any pending timeout
-    if (timeoutRef.current !== null) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    
-    // Check if route changed
-    if (previousPathRef.current !== location.pathname) {
-      // If we had a previous path, animate out first
-      if (previousPathRef.current) {
-        startTimeRef.current = performance.now();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated && previousPathRef.current === location.pathname) {
+            startTimeRef.current = performance.now();
 
-        const animateOut = (currentTime: number) => {
-          const elapsed = currentTime - startTimeRef.current;
-          const rawProgress = Math.min(elapsed / 600, 1); // 600ms fade out (1.5x longer)
-          const progress = easeOutCubic(rawProgress);
+            const animateIn = (currentTime: number) => {
+              const elapsed = currentTime - startTimeRef.current;
+              const rawProgress = Math.min(elapsed / 900, 1);
+              const progress = easeInOutCubic(rawProgress);
 
-          setOpacity(1 - progress);
-          setTranslateY(-15 + progress * 5); // Slide up slightly as it fades out
+              setOpacity(progress);
+              setTranslateY((1 - progress) * -15);
 
-          if (rawProgress < 1) {
-            animationFrameRef.current = requestAnimationFrame(animateOut);
-          } else {
-            // Outro complete, wait a moment then start intro
-            previousPathRef.current = location.pathname;
-            // Small delay to ensure old content is fully gone
-            timeoutRef.current = setTimeout(() => {
-              timeoutRef.current = null;
-              startTimeRef.current = performance.now();
+              if (rawProgress < 1) {
+                animationFrameRef.current = requestAnimationFrame(animateIn);
+              } else {
+                setHasAnimated(true);
+                animationFrameRef.current = null;
+              }
+            };
 
-              const animateIn = (currentTime: number) => {
-                const elapsed = currentTime - startTimeRef.current;
-                const rawProgress = Math.min(elapsed / 900, 1); // 900ms fade in (1.5x longer)
-                const progress = easeInOutCubic(rawProgress);
-
-                setOpacity(progress);
-                setTranslateY((1 - progress) * -15); // Start 15px above, slide down to 0
-
-                if (rawProgress < 1) {
-                  animationFrameRef.current = requestAnimationFrame(animateIn);
-                } else {
-                  animationFrameRef.current = null;
-                }
-              };
-
-              animationFrameRef.current = requestAnimationFrame(animateIn);
-            }, 150); // Delay to ensure clean transition
-          }
-        };
-
-        animationFrameRef.current = requestAnimationFrame(animateOut);
-      } else {
-        // First render - fade in and slide up
-        previousPathRef.current = location.pathname;
-        startTimeRef.current = performance.now();
-
-        const animateIn = (currentTime: number) => {
-          const elapsed = currentTime - startTimeRef.current;
-          const rawProgress = Math.min(elapsed / 900, 1); // 900ms fade in (1.5x longer)
-          const progress = easeInOutCubic(rawProgress);
-
-          setOpacity(progress);
-          setTranslateY((1 - progress) * -15); // Start 15px above, slide down to 0
-
-          if (rawProgress < 1) {
             animationFrameRef.current = requestAnimationFrame(animateIn);
-          } else {
-            animationFrameRef.current = null;
+            observer.unobserve(entry.target);
           }
-        };
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-        // Delay before fade in to match title animation timing
-        timeoutRef.current = setTimeout(() => {
-          timeoutRef.current = null;
-          animationFrameRef.current = requestAnimationFrame(animateIn);
-        }, 500);
-      }
+    if (subtitleRef.current) {
+      observer.observe(subtitleRef.current);
     }
 
     return () => {
-      if (animationFrameRef.current !== null) {
-        cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = null;
-      }
-      if (timeoutRef.current !== null) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
+      if (subtitleRef.current) {
+        observer.unobserve(subtitleRef.current);
       }
     };
+  }, [hasAnimated, location.pathname]);
+
+  // Reset on route change
+  useEffect(() => {
+    if (previousPathRef.current !== location.pathname) {
+      if (previousPathRef.current) {
+        setOpacity(0);
+        setTranslateY(-15);
+        setHasAnimated(false);
+      }
+      previousPathRef.current = location.pathname;
+    }
   }, [location.pathname]);
 
   return (

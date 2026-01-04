@@ -5,13 +5,14 @@ import { colorToHex, hexToOklch, interpolateOklch, oklchToCss } from '@/lib/oklc
 // Map routes to their background colors
 // For CSS variables, we'll resolve them at runtime
 const routeColors: Record<string, string> = {
-  '/': 'hsl(var(--secondary))', // About page - will resolve to actual color
+  '/': 'hsl(var(--secondary))', // Index page - will resolve to actual color
+  '/about': 'hsl(var(--secondary))', // About page - will resolve to actual color
   '/dublin': 'hsl(var(--secondary))', // Dublin page - will resolve to actual color
-  '/armagh': '#1E371C',
+  '/armagh': '#173C2C',
   '/bangor': '#E8E8E8',
-  '/donegal': '#2D3D42',
-  '/ward-ave': '#707B85',
-  '/zen': '#7A2B32',
+  '/donegal': '#1C4950',
+  '/ward-ave': '#1E1A17',
+  '/zen': '#A80A17',
   // NotFound uses muted
   '*': 'hsl(var(--muted))',
 };
@@ -60,7 +61,7 @@ const BackgroundColorTransition: React.FC = () => {
     startTimeRef.current = performance.now();
     previousPathRef.current = location.pathname;
 
-    const duration = 1500; // Animation duration in milliseconds
+    const duration = 800; // Animation duration in milliseconds
 
     const animate = (currentTime: number) => {
       const elapsed = currentTime - startTimeRef.current;

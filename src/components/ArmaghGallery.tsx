@@ -1,243 +1,174 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import React, { useState } from 'react';
 import AnimatedImage from './AnimatedImage';
+import SlideshowViewer from './SlideshowViewer';
 
-import armaghKitchen1 from '@/assets/armagh/armagh-kitchen-1.png';
-import armaghBedroom1 from '@/assets/armagh/armagh-bedroom-1.png';
-import armaghExterior from '@/assets/armagh/armagh-exterior.png';
-import armaghBedroom2 from '@/assets/armagh/armagh-bedroom-2.png';
-import armaghKitchen2 from '@/assets/armagh/armagh-kitchen-2.png';
-import armaghChandelier from '@/assets/armagh/armagh-chandelier.png';
-import armaghBathroom from '@/assets/armagh/armagh-bathroom.png';
-import armaghKitchenDetail from '@/assets/armagh/armagh-kitchen-detail.png';
-import armaghKitchen3 from '@/assets/armagh/armagh-kitchen-3.png';
-import armaghDining from '@/assets/armagh/armagh-dining.png';
-import armaghSinkDetail from '@/assets/armagh/armagh-sink-detail.png';
-import armaghHallwayDecor from '@/assets/armagh/armagh-hallway-decor.png';
-import armaghKitchenWide from '@/assets/armagh/armagh-kitchen-wide.png';
-import armaghBedroomEnsuite from '@/assets/armagh/armagh-bedroom-ensuite.png';
-import armaghLivingSofa from '@/assets/armagh/armagh-living-sofa.png';
-import armaghStaircase from '@/assets/armagh/armagh-staircase.png';
-import armaghFloorTiles from '@/assets/armagh/armagh-floor-tiles.png';
-import armaghCabinet from '@/assets/armagh/armagh-cabinet.png';
-import armaghMarbleCounter from '@/assets/armagh/armagh-marble-counter.png';
-import armaghSittingArea from '@/assets/armagh/armagh-sitting-area.png';
-import armaghPendantLight from '@/assets/armagh/armagh-pendant-light.png';
-import armaghBlueSofa from '@/assets/armagh/armagh-blue-sofa.png';
-import armaghFireplace from '@/assets/armagh/armagh-fireplace.png';
-import armaghScallopShower from '@/assets/armagh/armagh-scallop-shower.png';
-import armaghBirdArt from '@/assets/armagh/armagh-bird-art.png';
-import armaghColorfulBedroom from '@/assets/armagh/armagh-colorful-bedroom.png';
-import armaghMarbleBathroom from '@/assets/armagh/armagh-marble-bathroom.png';
-import armaghMasterBedroom from '@/assets/armagh/armagh-master-bedroom.png';
-import armaghLuxuryBathroom from '@/assets/armagh/armagh-luxury-bathroom.png';
+import armagh1 from '@/assets/armagh/armagh1.jpeg';
+import armagh2 from '@/assets/armagh/armagh2.jpeg';
+import armagh3 from '@/assets/armagh/armagh3.jpeg';
+import armagh4 from '@/assets/armagh/armagh4.jpeg';
+import armagh5 from '@/assets/armagh/armagh5.jpeg';
+import armagh6 from '@/assets/armagh/armagh6.jpeg';
+import armagh7 from '@/assets/armagh/armagh7.jpeg';
+import armagh8 from '@/assets/armagh/armagh8.jpeg';
+import armagh9 from '@/assets/armagh/armagh9.jpeg';
+import armagh10 from '@/assets/armagh/armagh10.jpeg';
+import armagh11 from '@/assets/armagh/armagh11.jpeg';
+import armagh12 from '@/assets/armagh/armagh12.jpeg';
+import armagh13 from '@/assets/armagh/armagh13.jpeg';
+import armagh14 from '@/assets/armagh/armagh14.jpeg';
+import armagh15 from '@/assets/armagh/armagh15.jpeg';
+import armagh17 from '@/assets/armagh/armagh17.jpeg';
+import armagh18 from '@/assets/armagh/armagh18.jpeg';
+import armagh19 from '@/assets/armagh/armagh19.jpeg';
+import armagh20 from '@/assets/armagh/armagh20.jpeg';
+import armagh21 from '@/assets/armagh/armagh21.jpeg';
+import armagh22 from '@/assets/armagh/armagh22.jpeg';
+import armagh23 from '@/assets/armagh/armagh23.jpeg';
+import armagh24 from '@/assets/armagh/armagh24.jpeg';
+import armagh25 from '@/assets/armagh/armagh25.jpeg';
+import armagh26 from '@/assets/armagh/armagh26.jpeg';
+import armagh27 from '@/assets/armagh/armagh27.jpeg';
+import armagh28 from '@/assets/armagh/armagh28.jpeg';
+import armagh29 from '@/assets/armagh/armagh29.jpeg';
+import armagh30 from '@/assets/armagh/armagh30.jpeg';
+import armagh31 from '@/assets/armagh/armagh31.jpeg';
+import armagh32 from '@/assets/armagh/armagh32.jpeg';
+import armagh33 from '@/assets/armagh/armagh33.jpeg';
+import armagh34 from '@/assets/armagh/armagh34.jpeg';
+import armagh35 from '@/assets/armagh/armagh35.jpeg';
+import armagh36 from '@/assets/armagh/armagh36.jpeg';
+import armagh37 from '@/assets/armagh/armagh37.jpeg';
+import armagh38 from '@/assets/armagh/armagh38.jpeg';
+import armagh39 from '@/assets/armagh/armagh39.jpeg';
+import armagh40 from '@/assets/armagh/armagh40.jpeg';
+import armagh41 from '@/assets/armagh/armagh41.jpeg';
+import armagh42 from '@/assets/armagh/armagh42.jpeg';
+import armagh43 from '@/assets/armagh/armagh43.jpeg';
+import armagh44 from '@/assets/armagh/armagh44.jpeg';
+import armagh45 from '@/assets/armagh/armagh45.jpeg';
+import armagh46 from '@/assets/armagh/armagh46.jpeg';
 
 const ArmaghGallery: React.FC = () => {
-  const [viewMode, setViewMode] = useState<'masonry' | 'slideshow'>('masonry');
+  const [isSlideshowOpen, setIsSlideshowOpen] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    loop: true,
-    startIndex: startIndex,
-    align: 'center',
-  });
 
   const allImages = [
-    { src: armaghKitchen1, alt: "Victorian home kitchen with green cabinets" },
-    { src: armaghBedroom1, alt: "Master bedroom with teal walls" },
-    { src: armaghExterior, alt: "Exterior view with ivy" },
-    { src: armaghBedroom2, alt: "Guest bedroom" },
-    { src: armaghKitchen2, alt: "Kitchen from above with skylight" },
-    { src: armaghChandelier, alt: "Statement chandelier" },
-    { src: armaghBathroom, alt: "Elegant bathroom" },
-    { src: armaghKitchenDetail, alt: "Kitchen sink detail" },
-    { src: armaghKitchen3, alt: "Kitchen with skylight view" },
-    { src: armaghDining, alt: "Dining room with green wallpaper" },
-    { src: armaghSinkDetail, alt: "Bathroom sink with patterned tiles" },
-    { src: armaghHallwayDecor, alt: "Hallway with console table decor" },
-    { src: armaghKitchenWide, alt: "Open plan kitchen with marble counters" },
-    { src: armaghBedroomEnsuite, alt: "Master bedroom with ensuite bathroom" },
-    { src: armaghLivingSofa, alt: "Living room with tufted sofa" },
-    { src: armaghStaircase, alt: "Victorian staircase hallway" },
-    { src: armaghFloorTiles, alt: "Decorative floor tiles" },
-    { src: armaghCabinet, alt: "Kitchen display cabinet" },
-    { src: armaghMarbleCounter, alt: "Marble kitchen countertop" },
-    { src: armaghSittingArea, alt: "Sitting area with patterned chairs" },
-    { src: armaghPendantLight, alt: "Modern geometric pendant light" },
-    { src: armaghBlueSofa, alt: "Blue sofa living room" },
-    { src: armaghFireplace, alt: "Victorian fireplace with green wallpaper" },
-    { src: armaghScallopShower, alt: "Scallop tile shower bathroom" },
-    { src: armaghBirdArt, alt: "Bedroom with bird artwork" },
-    { src: armaghColorfulBedroom, alt: "Colorful guest bedroom" },
-    { src: armaghMarbleBathroom, alt: "Marble herringbone bathroom" },
-    { src: armaghMasterBedroom, alt: "Master bedroom with pendant light" },
-    { src: armaghLuxuryBathroom, alt: "Luxury bathroom with artwork" }
+    { src: armagh1, alt: "Armagh residential home interior view 1" },
+    { src: armagh2, alt: "Armagh residential home interior view 2" },
+    { src: armagh3, alt: "Armagh residential home interior view 3" },
+    { src: armagh4, alt: "Armagh residential home interior view 4" },
+    { src: armagh5, alt: "Armagh residential home interior view 5" },
+    { src: armagh6, alt: "Armagh residential home interior view 6" },
+    { src: armagh7, alt: "Armagh residential home interior view 7" },
+    { src: armagh8, alt: "Armagh residential home interior view 8" },
+    { src: armagh9, alt: "Armagh residential home interior view 9" },
+    { src: armagh10, alt: "Armagh residential home interior view 10" },
+    { src: armagh11, alt: "Armagh residential home interior view 11" },
+    { src: armagh12, alt: "Armagh residential home interior view 12" },
+    { src: armagh13, alt: "Armagh residential home interior view 13" },
+    { src: armagh14, alt: "Armagh residential home interior view 14" },
+    { src: armagh15, alt: "Armagh residential home interior view 15" },
+    { src: armagh17, alt: "Armagh residential home interior view 17" },
+    { src: armagh18, alt: "Armagh residential home interior view 18" },
+    { src: armagh19, alt: "Armagh residential home interior view 19" },
+    { src: armagh20, alt: "Armagh residential home interior view 20" },
+    { src: armagh21, alt: "Armagh residential home interior view 21" },
+    { src: armagh22, alt: "Armagh residential home interior view 22" },
+    { src: armagh23, alt: "Armagh residential home interior view 23" },
+    { src: armagh24, alt: "Armagh residential home interior view 24" },
+    { src: armagh25, alt: "Armagh residential home interior view 25" },
+    { src: armagh26, alt: "Armagh residential home interior view 26" },
+    { src: armagh27, alt: "Armagh residential home interior view 27" },
+    { src: armagh28, alt: "Armagh residential home interior view 28" },
+    { src: armagh29, alt: "Armagh residential home interior view 29" },
+    { src: armagh30, alt: "Armagh residential home interior view 30" },
+    { src: armagh31, alt: "Armagh residential home interior view 31" },
+    { src: armagh32, alt: "Armagh residential home interior view 32" },
+    { src: armagh33, alt: "Armagh residential home interior view 33" },
+    { src: armagh34, alt: "Armagh residential home interior view 34" },
+    { src: armagh35, alt: "Armagh residential home interior view 35" },
+    { src: armagh36, alt: "Armagh residential home interior view 36" },
+    { src: armagh37, alt: "Armagh residential home interior view 37" },
+    { src: armagh38, alt: "Armagh residential home interior view 38" },
+    { src: armagh39, alt: "Armagh residential home interior view 39" },
+    { src: armagh40, alt: "Armagh residential home interior view 40" },
+    { src: armagh41, alt: "Armagh residential home interior view 41" },
+    { src: armagh42, alt: "Armagh residential home interior view 42" },
+    { src: armagh43, alt: "Armagh residential home interior view 43" },
+    { src: armagh44, alt: "Armagh residential home interior view 44" },
+    { src: armagh45, alt: "Armagh residential home interior view 45" },
+    { src: armagh46, alt: "Armagh residential home interior view 46" },
   ];
 
   const column1Images = [
-    { src: armaghBedroom1, aspect: "aspect-[0.85]" },
-    { src: armaghExterior, aspect: "aspect-[1.5]" },
-    { src: armaghKitchen2, aspect: "aspect-[0.75]" },
-    { src: armaghBathroom, aspect: "aspect-[1.8]" },
-    { src: armaghDining, aspect: "aspect-[0.75]" },
-    { src: armaghSinkDetail, aspect: "aspect-[0.75]" },
-    { src: armaghKitchenWide, aspect: "aspect-[1.5]" },
-    { src: armaghStaircase, aspect: "aspect-[0.75]" },
-    { src: armaghCabinet, aspect: "aspect-[0.75]" },
-    { src: armaghSittingArea, aspect: "aspect-[0.85]" },
-    { src: armaghPendantLight, aspect: "aspect-[1.5]" },
-    { src: armaghFireplace, aspect: "aspect-[1.5]" },
-    { src: armaghBirdArt, aspect: "aspect-[0.65]" },
-    { src: armaghMarbleBathroom, aspect: "aspect-[1.5]" },
-    { src: armaghLuxuryBathroom, aspect: "aspect-[1.5]" }
+    { src: armagh2, aspect: "aspect-[0.75]" },
+    { src: armagh4, aspect: "aspect-[1.5]" },
+    { src: armagh6, aspect: "aspect-[1.92]" },
+    { src: armagh8, aspect: "aspect-[0.67]" },
+    { src: armagh10, aspect: "aspect-[1.73]" },
+    { src: armagh12, aspect: "aspect-[1.5]" },
+    { src: armagh14, aspect: "aspect-[1.74]" },
+    { src: armagh17, aspect: "aspect-[1.5]" },
+    { src: armagh19, aspect: "aspect-[0.67]" },
+    { src: armagh21, aspect: "aspect-[1.5]" },
+    { src: armagh23, aspect: "aspect-[0.75]" },
+    { src: armagh25, aspect: "aspect-[1.5]" },
+    { src: armagh27, aspect: "aspect-[0.85]" },
+    { src: armagh29, aspect: "aspect-[1.5]" },
+    { src: armagh31, aspect: "aspect-[0.75]" },
+    { src: armagh33, aspect: "aspect-[1.5]" },
+    { src: armagh35, aspect: "aspect-[0.65]" },
+    { src: armagh37, aspect: "aspect-[1.5]" },
+    { src: armagh39, aspect: "aspect-[0.75]" },
+    { src: armagh41, aspect: "aspect-[1.5]" },
+    { src: armagh43, aspect: "aspect-[0.85]" },
+    { src: armagh45, aspect: "aspect-[1.5]" },
   ];
 
   const column2Images = [
-    { src: armaghBedroom2, aspect: "aspect-[1.5]" },
-    { src: armaghChandelier, aspect: "aspect-[0.9]" },
-    { src: armaghKitchenDetail, aspect: "aspect-[0.85]" },
-    { src: armaghKitchen3, aspect: "aspect-[0.75]" },
-    { src: armaghHallwayDecor, aspect: "aspect-[1.6]" },
-    { src: armaghBedroomEnsuite, aspect: "aspect-[0.65]" },
-    { src: armaghLivingSofa, aspect: "aspect-[1.5]" },
-    { src: armaghFloorTiles, aspect: "aspect-[0.85]" },
-    { src: armaghMarbleCounter, aspect: "aspect-[0.75]" },
-    { src: armaghBlueSofa, aspect: "aspect-[1.5]" },
-    { src: armaghScallopShower, aspect: "aspect-[0.65]" },
-    { src: armaghColorfulBedroom, aspect: "aspect-[1.6]" },
-    { src: armaghMasterBedroom, aspect: "aspect-[0.7]" }
+    { src: armagh3, aspect: "aspect-[1.5]" },
+    { src: armagh5, aspect: "aspect-[0.9]" },
+    { src: armagh7, aspect: "aspect-[0.85]" },
+    { src: armagh9, aspect: "aspect-[0.75]" },
+    { src: armagh11, aspect: "aspect-[1.6]" },
+    { src: armagh13, aspect: "aspect-[0.65]" },
+    { src: armagh15, aspect: "aspect-[1.5]" },
+    { src: armagh18, aspect: "aspect-[0.85]" },
+    { src: armagh20, aspect: "aspect-[1.5]" },
+    { src: armagh22, aspect: "aspect-[0.75]" },
+    { src: armagh24, aspect: "aspect-[1.5]" },
+    { src: armagh26, aspect: "aspect-[0.9]" },
+    { src: armagh28, aspect: "aspect-[1.5]" },
+    { src: armagh30, aspect: "aspect-[0.65]" },
+    { src: armagh32, aspect: "aspect-[1.5]" },
+    { src: armagh34, aspect: "aspect-[0.75]" },
+    { src: armagh36, aspect: "aspect-[1.5]" },
+    { src: armagh38, aspect: "aspect-[0.85]" },
+    { src: armagh40, aspect: "aspect-[1.5]" },
+    { src: armagh42, aspect: "aspect-[0.9]" },
+    { src: armagh44, aspect: "aspect-[1.5]" },
+    { src: armagh46, aspect: "aspect-[0.65]" },
   ];
-
-  const nextSlide = useCallback(() => {
-    emblaApi?.scrollNext();
-  }, [emblaApi]);
-
-  const prevSlide = useCallback(() => {
-    emblaApi?.scrollPrev();
-  }, [emblaApi]);
 
   const openSlideshow = (imageSrc: string) => {
     const index = allImages.findIndex(img => img.src === imageSrc);
     if (index !== -1) {
       setStartIndex(index);
-      setCurrentSlide(index);
-      setViewMode('slideshow');
+      setIsSlideshowOpen(true);
     }
   };
 
-  // Scroll to correct slide when opening slideshow
-  useEffect(() => {
-    if (viewMode === 'slideshow' && emblaApi) {
-      emblaApi.scrollTo(startIndex, true);
-    }
-  }, [viewMode, emblaApi, startIndex]);
-
-  // Track current slide
-  useEffect(() => {
-    if (!emblaApi) return;
-    
-    const onSelect = () => {
-      setCurrentSlide(emblaApi.selectedScrollSnap());
-    };
-    
-    emblaApi.on('select', onSelect);
-    return () => {
-      emblaApi.off('select', onSelect);
-    };
-  }, [emblaApi]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (viewMode !== 'slideshow') return;
-      
-      if (e.key === 'ArrowRight') nextSlide();
-      else if (e.key === 'ArrowLeft') prevSlide();
-      else if (e.key === 'Escape') setViewMode('masonry');
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [viewMode, nextSlide, prevSlide]);
-
   return (
     <section className="w-full overflow-hidden">
+      <SlideshowViewer
+        images={allImages}
+        isOpen={isSlideshowOpen}
+        startIndex={startIndex}
+        onClose={() => setIsSlideshowOpen(false)}
+      />
 
-      {viewMode === 'slideshow' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in">
-          {/* Overlay */}
-          <div 
-            className="absolute inset-0 bg-neutral-200/95 backdrop-blur-sm"
-            onClick={() => setViewMode('masonry')}
-          />
-          
-          {/* Close Button */}
-          <button
-            onClick={() => setViewMode('masonry')}
-            className="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 text-neutral-600 opacity-60 hover:opacity-100 transition-opacity"
-            aria-label="Close slideshow"
-          >
-            <X size={28} strokeWidth={1.5} />
-          </button>
-          
-          {/* Embla Carousel */}
-          <div className="relative z-10 w-full h-full flex items-center">
-            <div className="overflow-hidden w-full" ref={emblaRef}>
-              <div className="flex items-center">
-                {allImages.map((image, index) => (
-                  <div 
-                    key={index} 
-                    className="flex-[0_0_66%] min-w-0 px-2 md:px-4 flex items-center justify-center h-[70vh]"
-                  >
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      className="max-h-full max-w-full object-contain rounded-lg shadow-2xl"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Navigation Buttons */}
-            <button
-              onClick={prevSlide}
-              className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-neutral-400 bg-white/80 flex items-center justify-center text-neutral-600 hover:bg-white transition-all z-20"
-              aria-label="Previous image"
-            >
-              <ChevronLeft size={24} strokeWidth={1.5} />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-neutral-400 bg-white/80 flex items-center justify-center text-neutral-600 hover:bg-white transition-all z-20"
-              aria-label="Next image"
-            >
-              <ChevronRight size={24} strokeWidth={1.5} />
-            </button>
-            
-            {/* Slide Counter */}
-            <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center">
-              <span className="text-neutral-600 text-sm bg-white/80 px-4 py-2 rounded-full">
-                {currentSlide + 1} / {allImages.length}
-              </span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <AnimatedImage>
-        <img
-          src={armaghKitchen1}
-          alt="Victorian home kitchen with green cabinets and marble countertops"
-          className="aspect-[0.75] object-cover w-full rounded-sm cursor-pointer hover:opacity-90 transition-opacity"
-          onClick={() => openSlideshow(armaghKitchen1)}
-        />
-      </AnimatedImage>
-      
-      <div className="flex flex-col md:flex-row w-full">
-        <div className="w-full md:min-w-60 md:flex-1 md:shrink md:basis-0">
+      <div className="flex flex-col md:flex-row w-full gap-0.5">
+        <div className="w-full md:min-w-60 md:flex-1 md:shrink md:basis-0 flex flex-col gap-0.5">
           {column1Images.map((image, index) => (
             <img
               key={`col1-${index}`}
@@ -250,7 +181,7 @@ const ArmaghGallery: React.FC = () => {
           ))}
         </div>
         
-        <div className="w-full md:min-w-60 md:flex-1 md:shrink md:basis-0">
+        <div className="w-full md:min-w-60 md:flex-1 md:shrink md:basis-0 flex flex-col gap-0.5">
           {column2Images.map((image, index) => (
             <img
               key={`col2-${index}`}
